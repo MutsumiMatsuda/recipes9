@@ -1,14 +1,14 @@
 @extends('learner.layouts.common')
 
 {{-- title --}}
-@section('title', '中国語翻訳問題集(さくら)')
+@section('title', '翻訳問題結果発表')
 
 @section('customjs')
-<script src="{{ asset('js/sakura.js') }}" defer></script>
+<script src="{{ asset($result ? 'js/confetti.js' : 'js/snow.js') }}" defer></script>
 @endsection
 
 @section('customcss')
-<link href="{{ asset('css/sakura.css') }}" rel="stylesheet">
+<link href="{{ asset($result ? 'css/confetti.css' : 'css/snow.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -33,15 +33,15 @@
                 <div class="col-md-12">
                   <textarea id="tts-txt" name="a" rows="3" cols="33" readonly="true">{{$q->a}}</textarea>
                 </div>
-                <div class="form-group row"><div class="col-md-3 mx-auto button"><button id="play" type="button" onclick="speak()">発音</button></div></div>
+                <div class="form-group row"><div class="col-md-3 mx-auto button"><button id="play" type="button" class="btn btn-light btn-outline-dark" onclick="speak()">発音</button></div></div>
               </div>
-              
+
             </div>
           </div>
           @csrf
-          <div class="form-group row py-4">
-            <div class="col-md-5 mx-auto button">
-              <button onclick="location.href='/learner'" class="btn-lg btn-outline-dark">一覧へ戻る</button>
+          <div class="form-group row py-4 mx-auto">
+            <div class="col-md-12">
+              <button type="button" onclick="location.href='{{Params::link2Index($p)}}'" class="btn btn-light btn-outline-dark">一覧へ</button>
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ let voices = [];
 if (window.speechSynthesis) {
   speechSynthesis.addEventListener("voiceschanged", setVoices);
 }
-  
+
 function setVoices() {
   if (voices.length) return;
   voices = speechSynthesis.getVoices();
@@ -86,7 +86,7 @@ function speak() {
         break;
       }
     }
-    
+
     if (!found) {
       alert("お使いのブラウザは、中国語音声に対応していません。\n他のブラウザをお試しください。");
     } else {

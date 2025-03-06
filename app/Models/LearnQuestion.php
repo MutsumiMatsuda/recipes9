@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Params;
 
 class LearnQuestion extends Model
 {
@@ -10,10 +11,6 @@ class LearnQuestion extends Model
     インスタンスメンバー
   -------------------------------*/
   protected $guarded = array('id');
-
-  /*------------------------------
-    インスタンスメンバー
-  -------------------------------*/
 
 
   /*------------------------------
@@ -29,7 +26,12 @@ class LearnQuestion extends Model
   const TRANSLATE = 0;
   const FILLBLANK = 1;
 
-  // ヴァリデーションルール
+  // 穴埋め問題の区切り文字
+  const FILL_DELIMITER = '*';
+  // 穴埋め部分の表示文字列
+  const FILL_REPLACER = '[■]';
+
+  // バリデーションルール
   public static $rules = array(
     'q' => 'required',
     'a' => 'required',
@@ -39,11 +41,6 @@ class LearnQuestion extends Model
     'a' => 'required',
   );
 
-// 以下を追記
-// MenunModelに関連付けを行う
-//   public function recipes() {
-//       return $this->hasMany('App\Recipe', 'howto_id');
-//   }
   private static $ratio = 0;
   private static $addRatio = 0;
   public static function initRatio($start, $add) {
@@ -51,9 +48,27 @@ class LearnQuestion extends Model
     self::$addRatio = $add;
   }
 
+  /*
+   * 一覧ページの検索クエリを返す
+   */
+  public static function getIndexQuery(Params $p) {
+    if (empty($p->query)) {
+      return self::query()->where([['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+        orderBy($p->sort, $p->order);
+    } else {
+      return self::query()->
+        where([['q', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+        orWhere([['a', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+        orWhere([['hint1', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+        orWhere([['hint2', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+        groupBy('id')->orderBy($p->sort, $p->order);
+    }
+  }
+
   // 正答率をランダムに返す
   public static function nextRatio() {
-    return self::$ratio += self::$addRatio;
+    //return self::$ratio += self::$addRatio;
+    return 0;
   }
 
   // 一覧表示用文字列を返す
@@ -71,15 +86,20 @@ class LearnQuestion extends Model
     return $dsp;
   }
 
-  // 詳細ページ用問題文を返す
+  // 翻訳問題詳細ページ用問題文を返す
   public static function dspQ($item) {
     $dsp = self::TRANSLATE == $item->type ? $item->q : self::replaceFill($item->q);
     return $dsp;
   }
 
+  // 穴埋め問題詳細ページ用問題文を返す
+  public static function dspFillQ($item) {
+    return self::replaceFill($item->hint1);
+  }
+
   // 詳細ページ用正解を返す
   public static function dspAnswer($item) {
-    $dsp = self::TRANSLATE == $item->type ? $item->a : str_replace('*', $item->a, $item->q);
+    $dsp = self::TRANSLATE == $item->type ? $item->a : str_replace(self::FILL_DELIMITER, $item->a, $item->hint1);
     return $dsp;
   }
 
@@ -88,9 +108,38 @@ class LearnQuestion extends Model
     return $item->ratio / 10;
   }
 
+  // DBに登録する穴埋め問題文を返す
+  public static function makeFillQuestion($head, $tail) {
+    $head = empty($head) ? '' : $head;
+    $tail = empty($tail) ? '' : $tail;
+    return $head . self::FILL_DELIMITER . $tail;
+  }
+
+  // 穴埋め問題の前部分を返す
+  public static function getFillQHead($q) {
+    $ret = '';
+    if (!empty($q)) {
+      $ary = explode(self::FILL_DELIMITER, $q->hint1);
+      if (1 < count($ary)) {
+        $ret = $ary[0];
+      }
+    }
+    return $ret;
+  }
+
+  // 穴埋め問題の後ろ部分を返す
+  public static function getFillQTail($q) {
+    $ret = '';
+    if (!empty($q)) {
+      $ary = explode(self::FILL_DELIMITER, $q->hint1);
+      $ret = 1 < count($ary) ? $ary[1] : $ary[0];
+    }
+    return $ret;
+  }
+
   // 穴埋め部分の表示文字列置換
   private static function replaceFill($src) {
-    return str_replace('*', '[■]', $src);
+    return str_replace(self::FILL_DELIMITER, self::FILL_REPLACER, $src);
   }
 
 }

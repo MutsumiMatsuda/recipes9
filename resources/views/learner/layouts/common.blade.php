@@ -60,8 +60,14 @@
 
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ route('learnerTop') }}">中国語学習トップ</a>
+                    <a class="dropdown-item" href="{{ route('tryFill') }}">穴埋め難問集作成</a>
+                    <a class="dropdown-item" href="{{ route('tryPrevFill') }}">前回の穴埋め難問集</a>
+                    <a class="dropdown-item" href="{{ route('tryTrans') }}">翻訳難問集作成</a>
+                    <a class="dropdown-item" href="{{ route('tryPrevTrans') }}">前回の翻訳難問集</a>
                     <a class="dropdown-item" href="{{ route('fillIndex') }}">穴埋め問題一覧</a>
+                    <a class="dropdown-item" href="{{ route('fillAdd') }}">穴埋め問題作成</a>
                     <a class="dropdown-item" href="{{ route('transIndex') }}">翻訳問題一覧</a>
+                    <a class="dropdown-item" href="{{ route('transAdd') }}">翻訳問題作成</a>
                     <a class="dropdown-item" href="{{ route('fillHidden') }}">穴埋め問題倉庫</a>
                     <a class="dropdown-item" href="{{ route('transHidden') }}">翻訳問題倉庫</a>
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

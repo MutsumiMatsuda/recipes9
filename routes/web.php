@@ -145,11 +145,15 @@ Route::get('learner/trans', [App\Http\Controllers\Learners\PagesController::clas
 Route::get('learner/trans/hidden', [App\Http\Controllers\Learners\PagesController::class, 'transHiddenIndex'])->name('transHidden');
 Route::get('learner/trans/hide', [App\Http\Controllers\Learners\PagesController::class, 'hideTrans'])->name('hideTrans');
 Route::get('learner/trans/show', [App\Http\Controllers\Learners\PagesController::class, 'showHiddenTrans'])->name('showHiddenTrans');
+Route::get('learner/trans/try', [App\Http\Controllers\Learners\PagesController::class, 'tryTrans'])->name('tryTrans');
+Route::get('learner/trans/prevtry', [App\Http\Controllers\Learners\PagesController::class, 'tryPrevTrans'])->name('tryPrevTrans');
 
 Route::get('learner/fill', [App\Http\Controllers\Learners\PagesController::class, 'fillIndex'])->name('fillIndex');
 Route::get('learner/fill/hidden', [App\Http\Controllers\Learners\PagesController::class, 'fillHiddenIndex'])->name('fillHidden');
 Route::get('learner/fill/hide', [App\Http\Controllers\Learners\PagesController::class, 'hideFill'])->name('hideFill');
 Route::get('learner/fill/show', [App\Http\Controllers\Learners\PagesController::class, 'showHiddenFill'])->name('showHiddenFill');
+Route::get('learner/fill/try', [App\Http\Controllers\Learners\PagesController::class, 'tryFill'])->name('tryFill');
+Route::get('learner/fill/prevtry', [App\Http\Controllers\Learners\PagesController::class, 'tryPrevFill'])->name('tryPrevFill');
 
 Route::get('learner/detail', [App\Http\Controllers\Learners\PagesController::class, 'qDetail'])->name('transDetail');
 Route::post('learner/check', [App\Http\Controllers\Learners\PagesController::class, 'qCheck'])->name('transCheck');

@@ -88,7 +88,7 @@
           <input type="hidden" name="page" value="{{$p->page}}"/>
           <div class="form-group row py-4">
             <div class="col-md-3 mx-auto">
-              <button type="submit" class="btn-lg btn-outline-dark">更新</button>
+              <button type="submit" class="btn btn-warning btn-outline-dark">更新</button>
             </div>
           </div>
         </div>

@@ -46,9 +46,16 @@
           </div>
           @csrf
           <input type="hidden" name="id" value="{{$q->id}}"/>
+          <input type="hidden" name="t" value="{{$p->type}}"/>
+          <input type="hidden" name="h" value="{{$p->hidden}}"/>
+          <input type="hidden" name="qr" value="{{$p->query}}"/>
+          <input type="hidden" name="s" value="{{$p->sort}}"/>
+          <input type="hidden" name="o" value="{{$p->order}}"/>
+          <input type="hidden" name="to" value="{{$p->tryId}}"/>
+          <input type="hidden" name="page" value="{{$p->page}}"/>
           <div class="form-group row py-4">
             <div class="col-md-3 mx-auto">
-              <button type="submit" class="btn-lg btn-outline-dark">解答</button>
+              <button type="submit" class="btn btn-warning btn-outline-dark">解答</button>
             </div>
           </div>
         </div>

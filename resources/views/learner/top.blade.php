@@ -23,6 +23,34 @@
           </div>
         </div>
         <div class="row py-2">
+          <a href="{{route('tryTrans')}}">
+            <div class="col-md-6 mx-auto card bg-dark">
+              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'穴埋め難問集作成'}}</div>
+            </div>
+          </a>
+        </div>
+        <div class="row py-2">
+          <a href="{{route('tryPrevTrans')}}">
+            <div class="col-md-6 mx-auto card bg-dark">
+              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'前回の穴埋め難問集'}}</div>
+            </div>
+          </a>
+        </div>
+        <div class="row py-2">
+          <a href="{{route('tryFill')}}">
+            <div class="col-md-6 mx-auto card bg-dark">
+              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'翻訳難問集作成'}}</div>
+            </div>
+          </a>
+        </div>
+        <div class="row py-2">
+          <a href="{{route('tryPrevFill')}}">
+            <div class="col-md-6 mx-auto card bg-dark">
+              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'前回の翻訳難問集'}}</div>
+            </div>
+          </a>
+        </div>
+        <div class="row py-2">
           <a href="{{route('fillIndex')}}">
             <div class="col-md-6 mx-auto card bg-dark">
               <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'穴埋問題一覧'}}</div>

@@ -24,7 +24,7 @@
         </div>
         <div class="row py-2">
           <div class="col-md-10 mx-auto card bg-light"  style="color : black;">
-            <div class="align-items-center text-center" style="font-size: 20px; color: black">{{$q->hint1}}</div>
+            <div class="align-items-center text-center" style="font-size: 20px; color: black">{{LearnQuestion::dspFillQ($q)}}</div>
           </div>
         </div>
         <div class="row py-2">
@@ -51,9 +51,16 @@
           </div>
           @csrf
           <input type="hidden" name="id" value="{{$q->id}}"/>
+          <input type="hidden" name="t" value="{{$p->type}}"/>
+          <input type="hidden" name="h" value="{{$p->hidden}}"/>
+          <input type="hidden" name="qr" value="{{$p->query}}"/>
+          <input type="hidden" name="s" value="{{$p->sort}}"/>
+          <input type="hidden" name="o" value="{{$p->order}}"/>
+          <input type="hidden" name="to" value="{{$p->tryId}}"/>
+          <input type="hidden" name="page" value="{{$p->page}}"/>
           <div class="form-group row py-4">
             <div class="col-md-3 mx-auto">
-              <button type="submit" class="btn-lg btn-outline-dark">解答</button>
+              <button type="submit" class="btn btn-warning btn-outline-dark">解答</button>
             </div>
           </div>
         </div>

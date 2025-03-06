@@ -31,17 +31,17 @@
             <div class="col-md-10 mx-auto">
               <div class="row card bg-info form-check">
                 <div class="col-md-12">
-                  <textarea name="a" rows="3" cols="33" readonly="true">{{$q->hint1}}</textarea>
+                  <textarea name="a" rows="3" cols="33" readonly="true">{{$q->q}}</textarea>
                 </div>
-                <div class="form-group row"><div class="col-md-3 mx-auto button"><button id="play" type="button" onclick="speak()">発音</button></div></div>
+                <div class="form-group row"><div class="col-md-3 mx-auto button"><button id="play" type="button" class="btn btn-light btn-outline-dark" onclick="speak()">発音</button></div></div>
               </div>
 
             </div>
           </div>
           @csrf
-          <div class="form-group row py-4">
-            <div class="col-md-5 mx-auto button">
-              <button onclick="location.href='/learner'" class="btn-lg btn-outline-dark">一覧へ戻る</button>
+          <div class="form-group row py-4 mx-auto">
+            <div class="col-md-12">
+              <button type="button" onclick="location.href='{{Params::link2Index($p)}}'" class="btn btn-light btn-outline-dark">一覧へ</button>
             </div>
           </div>
         </div>

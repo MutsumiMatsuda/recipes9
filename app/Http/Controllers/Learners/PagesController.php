@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\LearnQuestion;
+use App\Models\Tryout;
 use App\Models\Params;
+use Validator;
 use Carbon\Carbon;
 
 class PagesController extends Controller
@@ -25,15 +27,15 @@ class PagesController extends Controller
    */
   public function transIndex(Request $rq) {
 
-    $type = LearnQuestion::TRANSLATE;
-    $hidden = false;
     $p = new Params($rq);
+    $p->type = LearnQuestion::TRANSLATE;
+    $p->hidden = 0;
+    $p->title = "翻訳問題一覧";
     $p->setAction();
     $page = $p->page;
 
-    $list = self::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
-    $title = "翻訳問題一覧";
-    return view('learner.q-index', compact(['title', 'list', 'type', 'hidden', 'page', 'p']));
+    $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
+    return view('learner.q-index', compact(['list', 'page', 'p']));
   }
 
   /**
@@ -42,14 +44,14 @@ class PagesController extends Controller
   public function transHiddenIndex(Request $rq) {
 
     $p = new Params($rq);
-    $p->type = $type = LearnQuestion::TRANSLATE;
-    $p->hidden = $hidden = 1;
+    $p->type = LearnQuestion::TRANSLATE;
+    $p->hidden = 1;
+    $p->title = "翻訳問題倉庫";
     $p->setAction();
     $page = $p->page;
 
-    $list = self::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
-    $title = "翻訳問題倉庫";
-    return view('learner.q-index', compact(['title', 'list', 'type', 'hidden', 'page', 'p']));
+    $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
+    return view('learner.q-index', compact(['list', 'page', 'p']));
   }
 
   /**
@@ -58,14 +60,14 @@ class PagesController extends Controller
   public function fillIndex(Request $rq) {
 
     $p = new Params($rq);
-    $p->type = $type = LearnQuestion::FILLBLANK;
-    $p->hidden = $hidden = 0;
+    $p->type = LearnQuestion::FILLBLANK;
+    $p->hidden = 0;
+    $p->title = "穴埋め問題一覧";
     $p->setAction();
     $page = $p->page;
 
-    $list = self::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
-    $title = "穴埋め問題一覧";
-    return view('learner.q-index', compact(['title', 'list', 'type', 'hidden', 'page', 'p']));
+    $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
+    return view('learner.q-index', compact(['list', 'page', 'p']));
   }
 
   /**
@@ -74,136 +76,159 @@ class PagesController extends Controller
   public function fillHiddenIndex(Request $rq) {
 
     $p = new Params($rq);
-    $p->type = $type = LearnQuestion::FILLBLANK;
-    $p->hidden = $hidden = 1;
+    $p->type = LearnQuestion::FILLBLANK;
+    $p->hidden = 1;
+    $p->title = "穴埋め問題倉庫";
     $p->setAction();
     $page = $p->page;
 
-    $list = self::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
-    $title = "穴埋め問題倉庫";
-    return view('learner.q-index', compact(['title', 'list', 'type', 'hidden', 'page', 'p']));
+    $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
+    return view('learner.q-index', compact(['list', 'page', 'p']));
   }
 
   /**
    * 翻訳問題を非表示にする
    */
   public function hideTrans(Request $rq) {
+    $p = new Params($rq);
     $form = $rq->all();
     $item = LearnQuestion::find($rq->id);
     $item->hidden = true;
     $item->save();
-    return redirect()->route('transIndex', ['page' => $rq->page]);
+    return redirect()->route('transIndex', $p->getWithoutId());
   }
 
   /**
    * 非表示の翻訳問題を表示する
    */
   public function showHiddenTrans(Request $rq) {
+    $p = new Params($rq);
     $form = $rq->all();
     $item = LearnQuestion::find($rq->id);
-    $item->hidden = false;
+    $item->hidden = 0;
     $item->save();
-    return redirect()->route('transHidden', ['page' => $rq->page]);
+    return redirect()->route('transHidden', $p->getWithoutId());
   }
 
   /**
    * 穴埋め問題を非表示にする
    */
   public function hideFill(Request $rq) {
+    $p = new Params($rq);
     $form = $rq->all();
-    //dd($form);
     $item = LearnQuestion::find($rq->id);
-    $item->hidden = true;
+    $item->hidden = 1;
     $item->save();
-    return redirect()->route('fillIndex', ['page' => $rq->page]);
+    return redirect()->route('fillIndex', $p->getWithoutId());
   }
 
   /**
    * 非表示の穴埋め問題を表示する
    */
   public function showHiddenFill(Request $rq) {
+    $p = new Params($rq);
     $form = $rq->all();
     $item = LearnQuestion::find($rq->id);
-    $item->hidden = false;
+    $item->hidden = 0;
     $item->save();
-    return redirect()->route('fillHidden', ['page' => $rq->page]);
+    return redirect()->route('fillHidden', $p->getWithoutId());
   }
 
   /**
-   * 問題詳細ページ表示
+   * 翻訳問題詳細ページ表示
    */
    public function qDetail(Request $rq) {
+    $p = new Params($rq);
     $q = LearnQuestion::find($rq->id);
-    return view('learner.trans-detail', compact(['q']));
+    return view('learner.trans-detail', compact(['q', 'p']));
   }
 
   /**
-   * 問題の解答チェック
+   * 翻訳問題の解答チェック
    */
    public function qCheck(Request $rq) {
+    $p = new Params($rq);
     $this->validate($rq, LearnQuestion::$ansRules);
     $q = LearnQuestion::find($rq->id);
     $result = $q->a == $rq->a;
     self::updateResult($q, $result);
-    return view('learner.trans-result', compact(['q', 'result']));
+    return view('learner.trans-result', compact(['q', 'p', 'result']));
   }
 
   /**
-   * 問題新規登録画面表示
+   * 翻訳問題新規登録画面表示
    */
   public function add(Request $rq) {
-    return view('learner.trans-add');
+     $p = new Params($rq);
+     return view('learner.trans-add', compact(['p']));
   }
 
   /**
    * 問題新規登録
    */
-   public function create(Request $rq) {
+  public function create(Request $rq) {
+    $p = new Params($rq);
     $this->validate($rq, LearnQuestion::$rules);
     $q = new LearnQuestion();
     $q->fill($rq->all());
     $q->save();
-    return redirect('learner/');
+    return redirect()->route('transIndex', $p->getWithoutId());
   }
 
   /**
    * 問題編集ページ表示
    */
-   public function edit(Request $rq) {
-    $q = LearnQuestion::find($rq->id);
+  public function edit(Request $rq) {
     $p = new Params($rq);
+    $q = LearnQuestion::find($rq->id);
     return view('learner.trans-edit', compact(['q', 'p']));
   }
 
   /**
    * 問題更新
    */
-   public function update(Request $rq) {
+  public function update(Request $rq) {
     $this->validate($rq, LearnQuestion::$rules);
     $q = LearnQuestion::find($rq->id);
     $q->fill($rq->all());
     $q->updated_at = Carbon::now();
     $q->save();
     $p = new Params($rq);
-    return redirect()->route(0 != $p->hidden ? 'transHidden' : 'transIndex', $p->get());
+    return redirect()->route(0 != $p->hidden ? 'transHidden' : 'transIndex', $p->getWithoutId());
   }
 
   /**
    * 問題新規登録画面表示
    */
   public function addFill(Request $rq) {
-    return view('learner.fill-add');
+    $p = new Params($rq);
+    return view('learner.fill-add', compact(['p']));
   }
 
   /**
    * 問題新規登録
    */
   public function createFill(Request $rq) {
-    $this->validate($rq, LearnQuestion::$rules);
+    // バリデーション
+    $validator = Validator::make($rq->all(), LearnQuestion::$ansRules);
+    if ($validator->fails()) {
+      return redirect()->route('fillAdd')->withErrors($validator)->withInput();
+    }
+
+    // 問題文のどちらか片方は必須
+    if (empty($rq->q_head) && empty($rq->q_tail) ) {
+      $validator->errors()->add('q_head', '問題文前と後の、どちらか又は両方を入力して下さい。');
+      return redirect()->route('fillAdd')->withErrors($validator)->withInput();
+    }
+
+    $form = $rq->all();
+    unset($form['q_head'], $form['q_tail'], $form['_token']);
+    $form['hint1'] = LearnQuestion::makeFillQuestion($rq->q_head, $rq->q_tail);
     $q = new LearnQuestion();
-    $q->fill($rq->all());
+    $q->fill($form);
     $q->save();
-    return redirect('learner/fill');
+    $p = new Params($rq);
+    return redirect()->route('fillIndex', compact(['p']));
   }
 
   /**
@@ -219,35 +244,90 @@ class PagesController extends Controller
    * 問題更新
    */
   public function updateFill(Request $rq) {
-    $this->validate($rq, LearnQuestion::$rules);
+    // バリデーション
+    $validator = Validator::make($rq->all(), LearnQuestion::$ansRules);
+    if ($validator->fails()) {
+      return redirect()->route('fillAdd')->withErrors($validator)->withInput();
+    }
+
+    // 問題文のどちらか片方は必須
+    if (empty($rq->q_head) && empty($rq->q_tail) ) {
+      $validator->errors()->add('q_head', '問題文前と後の、どちらか又は両方を入力して下さい。');
+      return redirect()->route('fillAdd')->withErrors($validator)->withInput();
+    }
+
+    $form = $rq->all();
+    unset($form['q_head'], $form['q_tail'], $form['_token']);
+    $form['hint1'] = LearnQuestion::makeFillQuestion($rq->q_head, $rq->q_tail);
+
     $q = LearnQuestion::find($rq->id);
-    $q->fill($rq->all());
+    $q->fill($form);
     $q->updated_at = Carbon::now();
     $q->save();
     $p = new Params($rq);
-    return redirect()->route(0 != $p->hidden ? 'fillHidden' : 'fillIndex', $p->get());
+    return redirect()->route(0 != $p->hidden ? 'fillHidden' : 'fillIndex', $p->getWithoutId());
   }
 
   /**
    * 問題詳細ページ表示
    */
   public function fillDetail(Request $rq) {
+    $p = new Params($rq);
     $q = LearnQuestion::find($rq->id);
-    return view('learner.fill-detail', compact(['q']));
+    return view('learner.fill-detail', compact(['q', 'p']));
   }
 
   /**
    * 問題の解答チェック
    */
   public function fillCheck(Request $rq) {
+    $p = new Params($rq);
     $this->validate($rq, LearnQuestion::$ansRules);
     $q = LearnQuestion::find($rq->id);
     $result = $q->a == $rq->a;
     self::updateResult($q, $result);
-    return view('learner.fill-result', compact(['q', 'result']));
+    return view('learner.fill-result', compact(['q', 'result', 'p']));
   }
 
+  /**
+   * 難易度高め翻訳問題集を新規作成して一覧表示
+   */
+  public function tryTrans(Request $rq) {
+    Tryout::createHard(LearnQuestion::TRANSLATE);
+    return redirect()->route('tryPrevTrans');
+  }
 
+  /**
+   * 前回の難易度高め翻訳問題集を一覧表示
+   */
+  public function tryPrevTrans(Request $rq) {
+    $tryout = Tryout::latest(LearnQuestion::TRANSLATE);
+    $p = new Params($rq);
+    $p->tryId = $tryout->id;
+    return view('learner.q-tryout', compact(['tryout', 'p']));
+  }
+
+  /**
+   * 難易度高め穴埋め問題集を新規作成して一覧表示
+   */
+  public function tryFill(Request $rq) {
+    Tryout::createHard(LearnQuestion::FILLBLANK);
+    return redirect()->route('tryPrevFill');
+  }
+
+  /**
+   * 前回の難易度高め穴埋め問題集を一覧表示
+   */
+  public function tryPrevFill(Request $rq) {
+    $tryout = Tryout::latest(LearnQuestion::FILLBLANK);
+    $p = new Params($rq);
+    $p->tryId = $tryout->id;
+    return view('learner.q-tryout', compact(['tryout', 'p']));
+  }
+
+  /*------------------------------
+    スタティックメンバー
+  -------------------------------*/
   /**
    * 一覧ページに渡す頁番号を返す
    */
@@ -278,21 +358,6 @@ class PagesController extends Controller
   private static function getQuery(Request $rq) {
     $query = empty($rq->q) ? '' : $rq->q;
     return $query;
-  }
-
-  /*
-   * 一覧ページの検索クエリを返す
-   */
-  private static function getIndexQuery(Params $p) {
-    if (empty($p->query)) {
-      return LearnQuestion::query()->where([['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-        orderBy($p->sort, $p->order);
-    } else {
-      return LearnQuestion::query()->
-        where([['q', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-        orWhere([['a', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-        groupBy('id')->orderBy($p->sort, $p->order);
-    }
   }
 
   /**

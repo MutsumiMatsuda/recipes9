@@ -4,6 +4,8 @@ namespace App\Models;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\LearnQuestion;
+
 /**
  * ページ間で持ち回るパラメータを保持するクラス
  */
@@ -11,6 +13,8 @@ class Params {
   /*------------------------------
     インスタンスメンバー
   -------------------------------*/
+  // 画面タイトル
+  public $title = '';
   // 問題の種類
   public $type = 0;
   // 表示非表示
@@ -25,6 +29,8 @@ class Params {
   public $order = '';
   // ページ番号
   public $page = 1;
+  // 問題集id
+  public $tryId = 0;
 
   // リクエストを指定するコンストラクタ
   function __construct(Request $rq) {
@@ -34,6 +40,7 @@ class Params {
     $this->page = empty($rq->page) ? 1 : $rq->page;
     $this->sort = empty($rq->s) ? 'id' : $rq->s;
     $this->order = empty($rq->o) ? 'asc' : $rq->o;
+    $this->tryId = empty($rq->to) ? 0 : $rq->to;
   }
 
   // タイプと表示非表示によってaction属性を設定する
@@ -46,9 +53,18 @@ class Params {
     }
   }
 
-  // 素bt絵のパラメータを連想配列として返す
+  // パラメータを連想配列として返す
   public function get() {
-    return ['t' => $this->type, 'h' => $this->hidden, 'qr' => $this->query, 's' => $this->sort, 'o' => $this->order, 'page' => $this->page];
+    return ['t' => $this->type, 'h' => $this->hidden, 'qr' => $this->query,
+            's' => $this->sort, 'o' => $this->order, 'to' => $this->tryId,
+            'id' => $this->id, 'page' => $this->page];
+  }
+
+  // id以外のパラメータを連想配列として返す
+  public function getWithoutId() {
+    return ['t' => $this->type, 'h' => $this->hidden, 'qr' => $this->query,
+            's' => $this->sort, 'o' => $this->order, 'to' => $this->tryId,
+            'page' => $this->page];
   }
 
   /*------------------------------
@@ -64,11 +80,14 @@ class Params {
   const ORDER_DESC = 'desc';
 
   public static function paramsWithId($id, $p) {
-    return ['id' => $id, 't' => $p->type, 'h' => $p->hidden, 'qr' => $p->query, 's' => $p->sort, 'o' => $p->order, 'page' => $p->page];
+    return ['id' => $id, 't' => $p->type, 'h' => $p->hidden, 'qr' => $p->query,
+            's' => $p->sort, 'o' => $p->order, 'to' => $p->tryId,
+            'page' => $p->page];
   }
 
   public static function addPageLink($p) {
-    return '&t=' . $p->type . '&h=' . $p->hidden . '&qr=' . $p->query . '&s=' . $p->sort . '&o=' . $p->order;
+    return '&t=' . $p->type . '&h=' . $p->hidden . '&qr=' . $p->query .
+            '&s=' . $p->sort . '&o=' . $p->order . '&to=' . $p->tryId;
   }
 
   // 「番号」ソートボタンのclassを返す
@@ -104,7 +123,7 @@ class Params {
   }
 
   public static function orderLavelQuestion($p) {
-    return self::SORT_Q == $p->sort && self::ORDER_DESC == $p->order ? '質問↓' : '質問↑';
+    return self::SORT_Q == $p->sort && self::ORDER_DESC == $p->order ? '問題↓' : '問題↑';
   }
 
   public static function orderLavelAnswer($p) {
@@ -132,5 +151,29 @@ class Params {
         '&h=' . $p->hidden);
     }
     return $p->action . $param;
+  }
+
+  // 問題詳細ページへのリンクを返す
+  public static function link2Detail($id, $p) {
+    $url = route(LearnQuestion::TRANSLATE == $p->type ? 'transDetail' : 'fillDetail', self::paramsWithId($id, $p));
+    return $url;
+  }
+
+  // 一覧又は問題集へのリンクを返す
+  public static function link2Index($p) {
+    $url = '';
+    // 問題集挑戦中ならば問題集へのリンクを返す
+    if (!empty($p->tryId) && 0 < $p->tryId) {
+      $url = route(LearnQuestion::TRANSLATE == $p->type ? 'tryPrevTrans' : 'tryPrevFill', $p->getWithoutId());
+    } else {
+      $r = '';
+      if (LearnQuestion::TRANSLATE == $p->type) {
+        $r = 0 == $p->hidden ? 'transIndex' : 'transHiddenIndex';
+      } else {
+        $r = 0 == $p->hidden ? 'fillIndex' : 'fillHiddenIndex';
+      }
+      $url = route($r, $p->getWithoutId());
+    }
+    return $url;
   }
 }

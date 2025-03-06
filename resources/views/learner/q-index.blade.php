@@ -1,7 +1,8 @@
+{{-- 問題一覧ページ(各種問題統合) --}}
 @extends('learner.layouts.common')
 
 {{-- title --}}
-@section('title', $title)
+@section('title', $p->title)
 
 @section('customjs')
 <script src="{{ asset('js/sakura.js') }}" defer></script>
@@ -20,7 +21,7 @@
         {{-- タイトル、検索ボックス --}}
         <div class="row py-2">
           <div class="col-md-6 card bg-light" style="color: black;">
-            <div class="align-items-center text-center" style="font-size: 18px; color: black">{{$title}}</div>
+            <div class="align-items-center text-center" style="font-size: 18px; color: black">{{$p->title}}</div>
           </div>
           <div class="col-md-6">
             <form action="{{ $p->action }}" method="get" enctype="multipart/form-data">
@@ -64,11 +65,7 @@
             <div class="row">
               <div class="col-md-10 card @if($i % 2) bg-primary @else bg-info @endif" style="color: white">
                 <div class="card-body ps-0">
-                  @if($item->type == LearnQuestion::FILLBLANK)
-                  <a href="{{'/learner/fill/detail?id=' . $item->id}}">
-                  @else
-                  <a href="{{'/learner/detail?id=' . $item->id}}">
-                  @endif
+                  <a href="{{Params::link2Detail($item->id, $p)}}">
                     <label class="form-check-label form-control-lg" style="color: white">
                       {{LearnQuestion::dspFillIndexQ($item)}}
                     </label>
@@ -94,15 +91,15 @@
                   {{LearnQuestion::dspRatio($item) . "%"}}
                 </div>
                 <div class="card-body px-0 fs-3">
-                  @if($item->type == LearnQuestion::FILLBLANK && !$hidden)
+                  @if($item->type == LearnQuestion::FILLBLANK && !$p->hidden)
                   <a href='{{route('hideFill', Params::paramsWithId($item->id, $p))}}' title="倉庫に入れる">
                     <i class="fas fa-file-import"></i>
                   </a>
-                  @elseif($item->type == LearnQuestion::FILLBLANK && $hidden)
+                  @elseif($item->type == LearnQuestion::FILLBLANK && $p->hidden)
                   <a href='{{route('showHiddenFill', Params::paramsWithId($item->id, $p))}}' title="倉庫から出す">
                     <i class="fas fa-file-export"></i>
                   </a>
-                  @elseif($item->type == LearnQuestion::TRANSLATE && !$hidden)
+                  @elseif($item->type == LearnQuestion::TRANSLATE && !$p->hidden)
                   <a href='{{route('hideTrans', Params::paramsWithId($item->id, $p))}}' title="倉庫に入れる">
                     <i class="fas fa-file-import"></i>
                   </a>

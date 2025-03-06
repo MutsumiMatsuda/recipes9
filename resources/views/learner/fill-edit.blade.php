@@ -26,18 +26,42 @@
           @if (count($errors) > 0)
             <ul>
               @foreach($errors->all() as $e)
-                <li>{{ $e }}</li>
+                <li class="text-warning">{{ $e }}</li>
               @endforeach
             </ul>
           @endif
           <div class="form-group row" style="font-size: 20; color: white;">
             <div class="col-md-10 mx-auto">
-              穴埋め問題
+              日本語
             </div>
             <div class="col-md-10 mx-auto">
               <div class="row card bg-info form-check">
                 <div class="col-md-12">
                   <textarea id="q" name="q" rows="3" cols="33">{{old("q", $q->q)}}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row" style="font-size: 20; color: white;">
+            <div class="col-md-10 mx-auto">
+              問題文前
+            </div>
+            <div class="col-md-10 mx-auto">
+              <div class="row card bg-info form-check">
+                <div class="col-md-12">
+                  <textarea id="q_head" name="q_head" rows="2" cols="33">{{old("q_head", LearnQuestion::getFillQHead($q))}}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row" style="font-size: 20; color: white;">
+            <div class="col-md-10 mx-auto">
+              問題文後
+            </div>
+            <div class="col-md-10 mx-auto">
+              <div class="row card bg-info form-check">
+                <div class="col-md-12">
+                  <textarea id="q_tail" name="q_tail" rows="2" cols="33">{{old("q_tail", LearnQuestion::getFillQTail($q))}}</textarea>
                 </div>
               </div>
             </div>
@@ -50,18 +74,6 @@
               <div class="row card bg-info form-check">
                 <div class="col-md-12">
                   <textarea id="a" name="a" rows="3" cols="33">{{old("a", $q->a)}}</textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="form-group row" style="font-size: 20; color: white;">
-            <div class="col-md-10 mx-auto">
-              日本語
-            </div>
-            <div class="col-md-10 mx-auto">
-              <div class="row card bg-info form-check">
-                <div class="col-md-12">
-                  <textarea id="hint1" name="hint1" rows="3" cols="33">{{old("hint1", $q->hint1)}}</textarea>
                 </div>
               </div>
             </div>
@@ -88,7 +100,7 @@
           <input type="hidden" name="page" value="{{$p->page}}"/>
           <div class="form-group row py-4">
             <div class="col-md-3 mx-auto">
-              <button type="submit" class="btn-lg btn-outline-dark">更新</button>
+              <button type="submit" class="btn btn-warning btn-outline-dark">更新</button>
             </div>
           </div>
         </div>
