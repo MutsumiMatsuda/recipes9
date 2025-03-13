@@ -31,6 +31,8 @@ class Params {
   public $page = 1;
   // 問題集id
   public $tryId = 0;
+  // タグid
+  public $tagId = 0;
 
   // リクエストを指定するコンストラクタ
   function __construct(Request $rq) {
@@ -41,6 +43,7 @@ class Params {
     $this->sort = empty($rq->s) ? 'id' : $rq->s;
     $this->order = empty($rq->o) ? 'asc' : $rq->o;
     $this->tryId = empty($rq->to) ? 0 : $rq->to;
+    $this->tagId = empty($rq->ti) ? 0 : $rq->ti;
   }
 
   // タイプと表示非表示によってaction属性を設定する
@@ -57,14 +60,14 @@ class Params {
   public function get() {
     return ['t' => $this->type, 'h' => $this->hidden, 'qr' => $this->query,
             's' => $this->sort, 'o' => $this->order, 'to' => $this->tryId,
-            'id' => $this->id, 'page' => $this->page];
+            'ti' => $this->tagId, 'id' => $this->id, 'page' => $this->page];
   }
 
   // id以外のパラメータを連想配列として返す
   public function getWithoutId() {
     return ['t' => $this->type, 'h' => $this->hidden, 'qr' => $this->query,
             's' => $this->sort, 'o' => $this->order, 'to' => $this->tryId,
-            'page' => $this->page];
+            'ti' => $this->tagId, 'page' => $this->page];
   }
 
   /*------------------------------
@@ -82,11 +85,12 @@ class Params {
   public static function paramsWithId($id, $p) {
     return ['id' => $id, 't' => $p->type, 'h' => $p->hidden, 'qr' => $p->query,
             's' => $p->sort, 'o' => $p->order, 'to' => $p->tryId,
-            'page' => $p->page];
+            'ti' => $p->tagId, 'page' => $p->page];
   }
 
   public static function addPageLink($p) {
     return '&t=' . $p->type . '&h=' . $p->hidden . '&qr=' . $p->query .
+            '&ti=' . $p->tagId .
             '&s=' . $p->sort . '&o=' . $p->order . '&to=' . $p->tryId;
   }
 
@@ -140,14 +144,14 @@ class Params {
     if ($sort == $p->sort) {
       $param .=
         ('&o=' . (self::ORDER_ASC == $p->order ? self::ORDER_DESC : self::ORDER_ASC) .
-        '&t=' . $p->type .
+        '&t=' . $p->type . '&ti=' . $p->tagId .
         '&h=' . $p->hidden);
 
     // ソート変更の場合はオーダーは昇順固定
     } else {
       $param .=
         ('&o=' . self::ORDER_ASC .
-        '&t=' . $p->type .
+        '&t=' . $p->type . '&ti=' . $p->tagId .
         '&h=' . $p->hidden);
     }
     return $p->action . $param;

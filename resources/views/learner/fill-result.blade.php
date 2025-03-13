@@ -27,24 +27,43 @@
             <div class="align-items-center text-center @if($result) text-light @else text-light @endif" style="font-size: 24px;">{{ $result ? "正解！" : "残念…" }}</div>
           </div>
         </div>
-          <div class="form-group row" style="font-size: 20; color: white;">
-            <div class="col-md-10 mx-auto">
-              <div class="row card bg-info form-check">
-                <div class="col-md-12">
-                  <textarea name="a" rows="3" cols="33" readonly="true">{{$q->q}}</textarea>
-                </div>
-                <div class="form-group row"><div class="col-md-3 mx-auto button"><button id="play" type="button" class="btn btn-light btn-outline-dark" onclick="speak()">発音</button></div></div>
+        <div class="form-group row" style="font-size: 20; color: white;">
+          <div class="col-md-10 mx-auto">
+            <div class="row card bg-info form-check">
+              <div class="col-md-12">
+                <textarea name="a" rows="3" cols="33" readonly="true">{{$q->q}}</textarea>
               </div>
-
-            </div>
-          </div>
-          @csrf
-          <div class="form-group row py-4 mx-auto">
-            <div class="col-md-12">
-              <button type="button" onclick="location.href='{{Params::link2Index($p)}}'" class="btn btn-light btn-outline-dark">一覧へ</button>
+              <div class="form-group row"><div class="col-md-3 mx-auto button"><button id="play" type="button" class="btn btn-light btn-outline-dark" onclick="speak()">発音</button></div></div>
             </div>
           </div>
         </div>
+        <div class="form-group row" style="font-size: 20; color: white;">
+          <div class="col-md-10 mx-auto">
+            <div class="card-head text-light">ピンイン</div>
+            <div class="row card bg-info form-check">
+              <div class="col-md-12 mx-auto">
+                <textarea name="pinyin" rows="3" cols="33" readonly="true">{{$q->pinyin}}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" style="font-size: 20; color: white;">
+          <div class="col-md-10 mx-auto">
+            <div class="card-head text-light">英文</div>
+            <div class="row card bg-info form-check">
+              <div class="col-md-12">
+                <textarea name="en" rows="3" cols="33" readonly="true">{{$q->en}}</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        @csrf
+        <div class="form-group row py-4 mx-auto">
+          <div class="col-md-12">
+            <button type="button" onclick="location.href='{{Params::link2Index($p)}}'" class="btn btn-light btn-outline-dark">一覧へ</button>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 </div>

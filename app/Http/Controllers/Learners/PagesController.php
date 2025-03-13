@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\LearnQuestion;
 use App\Models\Tryout;
 use App\Models\Params;
+use App\Models\QTag;
+use App\Models\LearnQuestionTag;
 use Validator;
 use Carbon\Carbon;
 
@@ -33,9 +35,10 @@ class PagesController extends Controller
     $p->title = "翻訳問題一覧";
     $p->setAction();
     $page = $p->page;
+    $tags = QTag::all();
 
     $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
-    return view('learner.q-index', compact(['list', 'page', 'p']));
+    return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
   }
 
   /**
@@ -49,9 +52,10 @@ class PagesController extends Controller
     $p->title = "翻訳問題倉庫";
     $p->setAction();
     $page = $p->page;
+    $tags = QTag::all();
 
     $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
-    return view('learner.q-index', compact(['list', 'page', 'p']));
+    return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
   }
 
   /**
@@ -60,14 +64,16 @@ class PagesController extends Controller
   public function fillIndex(Request $rq) {
 
     $p = new Params($rq);
+    //dd($p->tagId, $p->query);
     $p->type = LearnQuestion::FILLBLANK;
     $p->hidden = 0;
     $p->title = "穴埋め問題一覧";
     $p->setAction();
     $page = $p->page;
+    $tags = QTag::all();
 
     $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
-    return view('learner.q-index', compact(['list', 'page', 'p']));
+    return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
   }
 
   /**
@@ -81,9 +87,10 @@ class PagesController extends Controller
     $p->title = "穴埋め問題倉庫";
     $p->setAction();
     $page = $p->page;
+    $tags = QTag::all();
 
     $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
-    return view('learner.q-index', compact(['list', 'page', 'p']));
+    return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
   }
 
   /**
@@ -160,7 +167,8 @@ class PagesController extends Controller
    */
   public function add(Request $rq) {
      $p = new Params($rq);
-     return view('learner.trans-add', compact(['p']));
+     $tags = QTag::all();
+     return view('learner.trans-add', compact(['p', 'tags']));
   }
 
   /**
@@ -172,6 +180,17 @@ class PagesController extends Controller
     $q = new LearnQuestion();
     $q->fill($rq->all());
     $q->save();
+
+    // タグの登録
+    if ($rq->tags) {
+      foreach($rq->tags as $tagId => $value) {
+        $lqtag = New LearnQuestionTag;
+        $lqtag->learn_question_id = $q->id;
+        $lqtag->q_tag_id = $tagId;
+        $lqtag->save();
+      }
+    }
+
     return redirect()->route('transIndex', $p->getWithoutId());
   }
 
@@ -181,7 +200,8 @@ class PagesController extends Controller
   public function edit(Request $rq) {
     $p = new Params($rq);
     $q = LearnQuestion::find($rq->id);
-    return view('learner.trans-edit', compact(['q', 'p']));
+    $tags = QTag::all();
+    return view('learner.trans-edit', compact(['q', 'p', 'tags']));
   }
 
   /**
@@ -193,6 +213,18 @@ class PagesController extends Controller
     $q->fill($rq->all());
     $q->updated_at = Carbon::now();
     $q->save();
+
+    // タグの更新
+    LearnQuestionTag::where('learn_question_id', $q->id)->delete();
+    if ($rq->tags) {
+      foreach($rq->tags as $tagId => $value) {
+        $lqtag = New LearnQuestionTag;
+        $lqtag->learn_question_id = $q->id;
+        $lqtag->q_tag_id = $tagId;
+        $lqtag->save();
+      }
+    }
+
     $p = new Params($rq);
     return redirect()->route(0 != $p->hidden ? 'transHidden' : 'transIndex', $p->getWithoutId());
   }
@@ -202,7 +234,8 @@ class PagesController extends Controller
    */
   public function addFill(Request $rq) {
     $p = new Params($rq);
-    return view('learner.fill-add', compact(['p']));
+    $tags = QTag::all();
+    return view('learner.fill-add', compact(['p', 'tags']));
   }
 
   /**
@@ -227,6 +260,17 @@ class PagesController extends Controller
     $q = new LearnQuestion();
     $q->fill($form);
     $q->save();
+
+    // タグの登録
+    if ($rq->tags) {
+      foreach($rq->tags as $tagId => $value) {
+        $lqtag = New LearnQuestionTag;
+        $lqtag->learn_question_id = $q->id;
+        $lqtag->q_tag_id = $tagId;
+        $lqtag->save();
+      }
+    }
+
     $p = new Params($rq);
     return redirect()->route('fillIndex', compact(['p']));
   }
@@ -237,7 +281,8 @@ class PagesController extends Controller
   public function editFill(Request $rq) {
     $q = LearnQuestion::find($rq->id);
     $p = new Params($rq);
-    return view('learner.fill-edit', compact(['q', 'p']));
+    $tags = QTag::all();
+    return view('learner.fill-edit', compact(['q', 'p', 'tags']));
   }
 
   /**
@@ -264,6 +309,18 @@ class PagesController extends Controller
     $q->fill($form);
     $q->updated_at = Carbon::now();
     $q->save();
+
+    // タグの更新
+    LearnQuestionTag::where('learn_question_id', $q->id)->delete();
+    if ($rq->tags) {
+      foreach($rq->tags as $tagId => $value) {
+        $lqtag = New LearnQuestionTag;
+        $lqtag->learn_question_id = $q->id;
+        $lqtag->q_tag_id = $tagId;
+        $lqtag->save();
+      }
+    }
+
     $p = new Params($rq);
     return redirect()->route(0 != $p->hidden ? 'fillHidden' : 'fillIndex', $p->getWithoutId());
   }

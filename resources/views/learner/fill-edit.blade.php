@@ -90,6 +90,42 @@
               </div>
             </div>
           </div>
+          <div class="form-group row" style="font-size: 20; color: white;">
+            <div class="col-md-10 mx-auto">
+              ピンイン
+            </div>
+            <div class="col-md-10 mx-auto">
+              <div class="row card bg-info form-check">
+                <div class="col-md-12">
+                  <textarea id="pinyin" name="pinyin" rows="3" cols="33">{{old("pinyin", $q->pinyin)}}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row" style="font-size: 20; color: white;">
+            <div class="col-md-10 mx-auto">
+              英文
+            </div>
+            <div class="col-md-10 mx-auto">
+              <div class="row card bg-info form-check">
+                <div class="col-md-12">
+                  <textarea id="en" name="en" rows="3" cols="33">{{old("en", $q->en)}}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{-- タグ --}}
+          <div class="row py-2">
+            @foreach($tags as $item)
+              <div class="col-md-3">
+                <div class="chkbox">
+                  <input type="checkbox" id="tags[{{$item->id}}]"
+                  name="tags[{{$item->id}}]" @if((old('tags' . $item->id) == $item->id) || $q->hasTag($item->id)) checked @endif>
+                  <label for="tags[{{$item->id}}]" class="text-light">{{$item->name}}</label>
+                </div>
+              </div>
+            @endforeach
+          </div>
           @csrf
           <input type="hidden" name="id" value="{{$q->id}}"/>
           <input type="hidden" name="t" value="{{$p->type}}"/>

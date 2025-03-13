@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Params;
+use App\Models\QTag;
 
 class LearnQuestion extends Model
 {
@@ -12,7 +13,9 @@ class LearnQuestion extends Model
   -------------------------------*/
   protected $guarded = array('id');
 
-
+  public function tags() {
+    return $this->hasManyThrough('App\Models\QTag', 'App\Models\LearnQuestionTag', 'learn_question_id', 'id', null, 'q_tag_id');
+  }
   /*------------------------------
     スタティックメンバー
   -------------------------------*/
@@ -52,16 +55,35 @@ class LearnQuestion extends Model
    * 一覧ページの検索クエリを返す
    */
   public static function getIndexQuery(Params $p) {
-    if (empty($p->query)) {
-      return self::query()->where([['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-        orderBy($p->sort, $p->order);
+    if (0 < $p->tagId) {
+      // タグが指定された場合
+      $qTag = QTag::find($p->tagId);
+      if (empty($p->query)) {
+        return self::query()->where([['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          whereIn('id', $qTag->questionIds())->
+          orderBy($p->sort, $p->order);
+      } else {
+        return self::query()->
+          where([['q', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['a', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['hint1', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['hint2', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          whereIn('id', $qTag->questionIds())->
+          groupBy('id')->orderBy($p->sort, $p->order);
+      }
     } else {
-      return self::query()->
-        where([['q', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-        orWhere([['a', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-        orWhere([['hint1', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-        orWhere([['hint2', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-        groupBy('id')->orderBy($p->sort, $p->order);
+      // タグが指定されない場合
+      if (empty($p->query)) {
+        return self::query()->where([['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orderBy($p->sort, $p->order);
+      } else {
+        return self::query()->
+          where([['q', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['a', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['hint1', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['hint2', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          groupBy('id')->orderBy($p->sort, $p->order);
+      }
     }
   }
 
@@ -142,4 +164,8 @@ class LearnQuestion extends Model
     return str_replace(self::FILL_DELIMITER, self::FILL_REPLACER, $src);
   }
 
+  // 指定のタグを持っているかの真偽値を返す
+  public function hasTag($id) {
+    return count($this->tags->where('id', $id)) ? true : false;
+  }
 }

@@ -18,6 +18,7 @@ use Database\Seeders\RecipeCountryTableSeeder;
 use Database\Seeders\MigrationsSeeder;
 use Database\Seeders\LearnQuestionsTableSeeder;
 use Database\Seeders\LearnQuestionsSeeder2;
+use Database\Seeders\QTagSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -45,5 +46,6 @@ class DatabaseSeeder extends Seeder
         //$this->call(MigrationsSeeder::class);
         $this->call(LearnQuestionsTableSeeder::class);
         $this->call(LearnQuestionsSeeder2::class);
+        $this->call(QTagSeeder::class);
     }
 }
