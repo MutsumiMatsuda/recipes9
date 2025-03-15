@@ -80,7 +80,7 @@
           </div>
           <div class="form-group row" style="font-size: 20; color: white;">
             <div class="col-md-10 mx-auto">
-              ピンイン
+              ピンイン　<button type="button" class="btn btn-primary" onclick="getPinyin()">変換</button>
             </div>
             <div class="col-md-10 mx-auto">
               <div class="row card bg-info form-check">
@@ -116,6 +116,7 @@
           </div>
           @csrf
           <input type="hidden" name="id" value="{{$q->id}}"/>
+          <input type="hidden" id="type" name="type" value="{{$p->type}}"/>
           <input type="hidden" name="t" value="{{$p->type}}"/>
           <input type="hidden" name="h" value="{{$p->hidden}}"/>
           <input type="hidden" name="qr" value="{{$p->query}}"/>
@@ -132,4 +133,7 @@
     </div>
   </main>
 </div>
+@endsection
+@section('js')
+<script src="{{ asset('js/translate.js') }}"></script>
 @endsection

@@ -12,6 +12,8 @@ use App\Models\QTag;
 use App\Models\LearnQuestionTag;
 use Validator;
 use Carbon\Carbon;
+use Overtrue\Pinyin\Pinyin;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class PagesController extends Controller
 {
@@ -28,7 +30,6 @@ class PagesController extends Controller
    * 翻訳問題一覧ページ表示
    */
   public function transIndex(Request $rq) {
-
     $p = new Params($rq);
     $p->type = LearnQuestion::TRANSLATE;
     $p->hidden = 0;
@@ -380,6 +381,15 @@ class PagesController extends Controller
     $p = new Params($rq);
     $p->tryId = $tryout->id;
     return view('learner.q-tryout', compact(['tryout', 'p']));
+  }
+
+  /**
+   * 中国語からピンインを取得
+   */
+  public function getPinyin(Request $rq) {
+    $pinyin = Pinyin::sentence($rq->chinese)->join();
+    $english = GoogleTranslate::trans($rq->chinese);
+    return response()->json(['pinyin' => $pinyin, 'english' => $english]);
   }
 
   /*------------------------------

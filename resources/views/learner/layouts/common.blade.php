@@ -13,8 +13,8 @@
 
   <!-- Scripts -->
   {{-- Javascript --}}
-  <script src="{{ asset('js/app.js') }}" defer></script>
-  <script src="{{ asset('js/particles.min.js') }}" defer></script>
+  <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/particles.min.js') }}"></script>
   @yield('customjs')
   {{-- @php $bgjs = 'js/' . $__env->yieldContent('bgtype') . '.js'; @endphp
       <link href="{{ asset($bgcss) }}" rel="stylesheet"> --}}

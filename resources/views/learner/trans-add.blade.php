@@ -80,7 +80,7 @@
           </div>
           <div class="form-group row" style="font-size: 20; color: white;">
             <div class="col-md-10 mx-auto">
-              ピンイン
+              ピンイン　<button type="button" class="btn btn-primary" onclick="getPinyin()">変換</button>
             </div>
             <div class="col-md-10 mx-auto">
               <div class="row card bg-info form-check">
@@ -114,6 +114,13 @@
             @endforeach
           </div>
           @csrf
+          <input type="hidden" id="type" name="type" value="{{LearnQuestion::TRANSLATE}}"/>
+          <input type="hidden" name="t" value="{{LearnQuestion::TRANSLATE}}"/>
+          <input type="hidden" name="h" value="{{$p->hidden}}"/>
+          <input type="hidden" name="qr" value="{{$p->query}}"/>
+          <input type="hidden" name="s" value="{{$p->sort}}"/>
+          <input type="hidden" name="o" value="{{$p->order}}"/>
+          <input type="hidden" name="page" value="{{$p->page}}"/>
           <div class="form-group row py-4">
             <div class="col-md-3 mx-auto">
               <button type="submit" class="btn-lg btn-outline-dark">登録</button>
@@ -124,4 +131,7 @@
     </div>
   </main>
 </div>
+@endsection
+@section('js')
+<script src="{{ asset('js/translate.js') }}"></script>
 @endsection

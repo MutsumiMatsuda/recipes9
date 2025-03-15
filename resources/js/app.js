@@ -5,6 +5,7 @@
  */
 
 import './bootstrap';
+global.$ = global.jQuery = require('jquery');
 //import { createApp } from 'vue';
 
 /**

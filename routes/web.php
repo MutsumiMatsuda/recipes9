@@ -169,6 +169,8 @@ Route::post('learner/fill/add', [App\Http\Controllers\Learners\PagesController::
 Route::get('learner/fill/edit', [App\Http\Controllers\Learners\PagesController::class, 'editFill'])->name('fillEdit');
 Route::post('learner/fill/update', [App\Http\Controllers\Learners\PagesController::class, 'updateFill'])->name('fillUpdate');
 
+Route::post('learner/pinyin', [App\Http\Controllers\Learners\PagesController::class, 'getPinyin'])->name('pinyin');
+
 Route::get('learner/sakura', [App\Http\Controllers\Learners\PagesController::class, 'sakura'])->name('sakura');
 Route::post('learner/sakura', [App\Http\Controllers\Learners\PagesController::class, 'checkAnswer']);
 Route::get('learner/stars', [App\Http\Controllers\Learners\PagesController::class, 'stars'])->name('stars');

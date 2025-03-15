@@ -218,6 +218,7 @@ return [
         'Utl' => App\Facades\Utl::class,
         'LearnQuestion' => App\Models\LearnQuestion::class,
         'Params' => App\Models\Params::class,
+        'GoogleTranslate' => Stichoza\GoogleTranslate\GoogleTranslate::class,
     ])->toArray(),
 
 ];
