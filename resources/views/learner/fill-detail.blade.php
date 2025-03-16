@@ -9,6 +9,14 @@
 
 @section('customcss')
 <link href="{{ asset('css/sakura.css') }}" rel="stylesheet">
+<style>
+.hint1 {
+  display: none;
+}
+.hint2 {
+  display: none;
+}
+</style>
 @endsection
 
 @section('content')
@@ -49,6 +57,19 @@
               </div>
             </div>
           </div>
+          {{-- ヒント --}}
+          @if(0 < strlen($q->hint2))
+          <div class="row py-1">
+            <div class="col-md-10 mx-auto card bg-light hint2" id="hint2" style="color : black;">
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">{{$q->hint2}}</div>
+            </div>
+          </div>
+          <div class="form-group row mx-auto">
+            <div class="col-md-4 mx-auto">
+              <button type="button" id="hint2btn" class="btn btn-primary">ヒント表示</button>
+            </div>
+          </div>
+          @endif
           @csrf
           <input type="hidden" name="id" value="{{$q->id}}"/>
           <input type="hidden" name="t" value="{{$p->type}}"/>
@@ -68,4 +89,13 @@
     </div>
   </main>
 </div>
+@endsection
+@section('js')
+<script>
+  $(function() {
+    $("#hint2btn").on("click", function() {
+      $("#hint2").slideToggle();
+    });
+  });
+</script>
 @endsection

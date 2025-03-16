@@ -384,11 +384,21 @@ class PagesController extends Controller
   }
 
   /**
+   * 中国語に翻訳
+   */
+  public function getChinese(Request $rq) {
+    $zh = GoogleTranslate::trans($rq->japanese, 'zh');
+    return response()->json(['zh' => $zh]);
+  }
+
+  /**
    * 中国語からピンインを取得
    */
   public function getPinyin(Request $rq) {
     $pinyin = Pinyin::sentence($rq->chinese)->join();
     $english = GoogleTranslate::trans($rq->chinese);
+    //dd($en);
+    //$pinyin = Pinyin::sentence($rq->a)->join();
     return response()->json(['pinyin' => $pinyin, 'english' => $english]);
   }
 

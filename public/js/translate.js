@@ -1,3 +1,29 @@
+// 日本語を中国語に翻訳して表示
+function getChinese() {
+  let qel = document.getElementById('q');
+  let cel = document.getElementById('a');
+  $.ajaxSetup({
+    headers: {
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    },
+  });
+  $.ajax({
+    type: "post", //HTTP通信の種類
+    url: "/learner/chinese",
+    dataType: "json",
+    data: { japanese: qel.value },
+  })
+    //通信が成功したとき
+    .then((res) => {
+      cel.value = res.zh;
+    })
+    //通信が失敗したとき
+    .fail((error) => {
+      console.log(error.statusText);
+    });
+}
+
+// ピンインと英訳を取得して表示
 function getPinyin() {
   let type = document.getElementById('type').value;
   let cn = '';

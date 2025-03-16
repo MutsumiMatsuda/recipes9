@@ -32,7 +32,7 @@
           @endif
           <div class="form-group row" style="font-size: 20; color: white;">
             <div class="col-md-10 mx-auto">
-              日本語
+              日本語　<button type="button" class="btn btn-primary" onclick="getChinese()">翻訳</button>
             </div>
             <div class="col-md-10 mx-auto">
               <div class="row card bg-info form-check">
