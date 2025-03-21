@@ -20,14 +20,20 @@ class LearnQuestion extends Model
     スタティックメンバー
   -------------------------------*/
   // 短縮表示の文字数
-  const SHORTEN = 12;
+  const SHORTEN = 10;
 
   // ページネーション件数
   const PAGENATE = 10;
 
-  // 種類
-  const TRANSLATE = 0;
-  const FILLBLANK = 1;
+  // 問題種類
+  const TRANSLATE = 0;  // 翻訳
+  const FILLBLANK = 1;  // 穴埋め
+  const KANPOWORD = 2;  // 生薬単語
+  const BIZWORD = 3;    // ビジネス単語
+  const OTHERWORD = 4;  // 一般単語
+
+  // 画面タイトル
+  public static $pageTitles = array('翻訳', '穴埋め', '生薬単語', 'ビジネス単語', '一般単語');
 
   // 穴埋め問題の区切り文字
   const FILL_DELIMITER = '*';
@@ -49,6 +55,13 @@ class LearnQuestion extends Model
   public static function initRatio($start, $add) {
     self::$ratio = $start;
     self::$addRatio = $add;
+  }
+
+  /**
+   * 問題作成画面タイトル
+   */
+  public static function pageTitle($type) {
+    return self::$pageTitles[$type];
   }
 
   /*

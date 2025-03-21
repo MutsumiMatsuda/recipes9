@@ -1,7 +1,7 @@
 @extends('learner.layouts.common')
 
 {{-- title --}}
-@section('title', '翻訳問題編集')
+@section('title', LearnQuestion::pageTitle($p->type) . '問題編集')
 
 @section('customjs')
 <script src="{{ asset('js/sakura.js') }}" defer></script>
@@ -19,7 +19,7 @@
       <div class="col-md-3 mx-auto card bg-secondary">
         <div class="row py-4">
           <div class="col-md-10 mx-auto card bg-dark">
-            <div class="align-items-center text-center" style="font-size: 20px; color: white">翻訳問題編集</div>
+            <div class="align-items-center text-center" style="font-size: 20px; color: white">{{LearnQuestion::pageTitle($p->type)}}問題編集</div>
           </div>
         </div>
         <form action="{{ action('Learners\PagesController@update') }}" method="post" enctype="multipart/form-data">
@@ -116,7 +116,7 @@
           </div>
           @csrf
           <input type="hidden" name="id" value="{{$q->id}}"/>
-          <input type="hidden" id="type" name="type" value="{{$p->type}}"/>
+          <input type="hidden" name="type" id="type" value="{{$p->type}}"/>
           <input type="hidden" name="t" value="{{$p->type}}"/>
           <input type="hidden" name="h" value="{{$p->hidden}}"/>
           <input type="hidden" name="qr" value="{{$p->query}}"/>

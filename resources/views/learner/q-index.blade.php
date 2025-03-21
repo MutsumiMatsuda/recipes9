@@ -2,7 +2,7 @@
 @extends('learner.layouts.common')
 
 {{-- title --}}
-@section('title', $p->title)
+@section('title', LearnQuestion::pageTitle($p->type) . '問題一覧')
 
 @section('customjs')
 <script src="{{ asset('js/sakura.js') }}" defer></script>
@@ -20,12 +20,12 @@
       <div class="col-md-3 mx-auto card">
         {{-- タイトル、検索ボックス --}}
         <div class="row py-2">
-          <div class="col-md-6 card bg-light" style="color: black;">
-            <div class="align-items-center text-center" style="font-size: 18px; color: black">{{$p->title}}</div>
+          <div class="col-md-5 card bg-light" style="color: black;">
+            <div class="align-items-center text-center" style="font-size: 18px; color: black">{{LearnQuestion::pageTitle($p->type)}}一覧</div>
           </div>
           <div class="col-md-6">
             <form action="{{ $p->action }}" id="searchForm" method="get" enctype="multipart/form-data">
-              <input type="text" size="18" placeholder="問題文や解答で検索" name="qr">
+              <input type="text" size="16" placeholder="問題文や解答で検索" name="qr">
               <input type="submit" id="formSubmit" class="fas" style="font-size: 22px" value="&#xf002;" title="検索">
               @csrf
               <input type="hidden" name="t" value="{{$p->type}}"/>
@@ -43,9 +43,9 @@
             @foreach($tags as $item)
             <td>
               @if($p->tagId == $item->id)
-              <button type="button" class="btn btn-warning" onclick="searchWithTag(0)" >{{$item->name}}</button>
+              <button type="button" class="btn btn-warning" onclick="searchWithTag(0)" title="{{$item->title}}">{{$item->name}}</button>
               @else
-              <button type="button" class="btn btn-primary" onclick="searchWithTag({{$item->id}})" >{{$item->name}}</button>
+              <button type="button" class="btn btn-primary" onclick="searchWithTag({{$item->id}})" title="{{$item->title}}">{{$item->name}}</button>
               @endif
             </td>
             @endforeach
@@ -80,10 +80,20 @@
         <div class="form-group row" style="font-size: 20; color: white;">
           <div class="col-md-11 mx-auto">
             <div class="row">
-              <div class="col-md-10 card @if($i % 2) bg-primary @else bg-info @endif" style="color: white">
+              @if($item->hasTag(6))
+              <div class="col-md-10 card bg-danger-subtle" style="color: black">
+              @elseif($i % 2)
+              <div class="col-md-10 card bg-primary" style="color: white">
+              @else
+              <div class="col-md-10 card bg-info" style="color: white">
+              @endif
                 <div class="card-body ps-0">
                   <a href="{{Params::link2Detail($item->id, $p)}}">
+                    @if($item->hasTag(6))
+                    <label class="form-check-label form-control-lg" style="color: black">
+                    @else
                     <label class="form-check-label form-control-lg" style="color: white">
+                    @endif
                       {{LearnQuestion::dspFillIndexQ($item)}}
                     </label>
                   </a>
@@ -93,7 +103,7 @@
                 <div class="card-head ms-auto">
                   率
                 </div>
-                <div class="card-body px-0 fs-3">
+                <div class="card-body ms-0 ps-0 fs-4">
                   @if($item->type == LearnQuestion::FILLBLANK)
                   <a href='{{route('fillEdit', Params::paramsWithId($item->id, $p))}}' title="編集する">
                   @else
@@ -107,24 +117,28 @@
                 <div class="card-head ms-auto">
                   {{LearnQuestion::dspRatio($item) . "%"}}
                 </div>
-                <div class="card-body px-0 fs-3">
-                  @if($item->type == LearnQuestion::FILLBLANK && !$p->hidden)
-                  <a href='{{route('hideFill', Params::paramsWithId($item->id, $p))}}' title="倉庫に入れる">
-                    <i class="fas fa-file-import"></i>
-                  </a>
-                  @elseif($item->type == LearnQuestion::FILLBLANK && $p->hidden)
-                  <a href='{{route('showHiddenFill', Params::paramsWithId($item->id, $p))}}' title="倉庫から出す">
-                    <i class="fas fa-file-export"></i>
-                  </a>
-                  @elseif($item->type == LearnQuestion::TRANSLATE && !$p->hidden)
-                  <a href='{{route('hideTrans', Params::paramsWithId($item->id, $p))}}' title="倉庫に入れる">
-                    <i class="fas fa-file-import"></i>
-                  </a>
+                <div class="card-body px-0 fs-4">
+                  @if($item->type == LearnQuestion::FILLBLANK)
+                    @if(!$p->hidden)
+                    <a href='{{route('hideFill', Params::paramsWithId($item->id, $p))}}' title="削除する" onclick="return confirmDelete('{{LearnQuestion::shorten($item)}}');">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                    @else
+                    <a href='{{route('showHiddenFill', Params::paramsWithId($item->id, $p))}}' title="倉庫から出す">
+                      <i class="fas fa-file-export"></i>
+                    </a>
+                    @endif
                   @else
-                  <a href='{{route('showHiddenTrans', Params::paramsWithId($item->id, $p))}}' title="倉庫から出す">
-                    <i class="fas fa-file-export"></i>
-                  </a>
+                    @if(!$p->hidden)
+                    <a href='{{route('hideTrans', Params::paramsWithId($item->id, $p))}}' title="削除する" onclick="return confirmDelete('{{LearnQuestion::shorten($item)}}');">
+                      <i class="fas fa-trash"></i>
+                    </a>
+                    @else
+                    <a href='{{route('showHiddenTrans', Params::paramsWithId($item->id, $p))}}' title="倉庫から出す">
+                      <i class="fas fa-file-export"></i>
+                    </a>
                   @endif
+                @endif
                 </div>
               </div>
             </div>
@@ -145,10 +159,15 @@
 @endsection
 @section('js')
 <script>
+// 検索フォーム送信
 function searchWithTag(id) {
   item = document.getElementById('tagId');
   item.value = id;
   document.getElementById('searchForm').submit();
+}
+// 削除確認
+function confirmDelete(m) {
+  return confirm("「" + m + "」を削除してよろしいですか？")
 }
 </script>
 @endsection

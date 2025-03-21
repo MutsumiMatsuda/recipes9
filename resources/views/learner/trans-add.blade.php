@@ -1,7 +1,7 @@
 @extends('learner.layouts.common')
 
 {{-- title --}}
-@section('title', '中国語翻訳問題登録')
+@section('title', LearnQuestion::pageTitle($p->type) . '問題登録')
 
 @section('customjs')
 <script src="{{ asset('js/sakura.js') }}" defer></script>
@@ -19,7 +19,7 @@
       <div class="col-md-3 mx-auto card bg-secondary">
         <div class="row py-4">
           <div class="col-md-10 mx-auto card bg-dark">
-            <div class="align-items-center text-center" style="font-size: 20px; color: white">翻訳問題登録</div>
+            <div class="align-items-center text-center" style="font-size: 20px; color: white">{{LearnQuestion::pageTitle($p->type)}}問題登録'</div>
           </div>
         </div>
         <form action="{{ action('Learners\PagesController@create') }}" method="post" enctype="multipart/form-data">
@@ -114,8 +114,8 @@
             @endforeach
           </div>
           @csrf
-          <input type="hidden" id="type" name="type" value="{{LearnQuestion::TRANSLATE}}"/>
-          <input type="hidden" name="t" value="{{LearnQuestion::TRANSLATE}}"/>
+          <input type="hidden" name="type" id="type" value="{{$p->type}}"/>
+          <input type="hidden" name="t" value="{{$p->type}}"/>
           <input type="hidden" name="h" value="{{$p->hidden}}"/>
           <input type="hidden" name="qr" value="{{$p->query}}"/>
           <input type="hidden" name="s" value="{{$p->sort}}"/>

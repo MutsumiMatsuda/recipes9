@@ -27,12 +27,14 @@ function getChinese() {
 function getPinyin() {
   let type = document.getElementById('type').value;
   let cn = '';
-  if (0 == type) {
-    cn = document.getElementById('a').value;
-  } else {
+  if (1 == type) {
+    // 穴埋め問題の場合
     cn = document.getElementById('q_head').value +
     document.getElementById('a').value +
     document.getElementById('q_tail').value;
+  } else {
+    // 穴埋め問題以外の場合
+    cn = document.getElementById('a').value;
   }
   let pel = document.getElementById('pinyin');
   let eel = document.getElementById('en');

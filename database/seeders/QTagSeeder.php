@@ -18,22 +18,38 @@ class QTagSeeder extends Seeder
     \DB::table('q_tags')->truncate();
     \DB::table('q_tags')->insert([
       [
-        'name' => 'ビジネス',
+        'name' => 'ビ',
+        'title' => 'ビジネス',
         'created_at' => new Carbon(),
         'updated_at' => new Carbon(),
       ],
       [
-        'name' => '中 医 学',
+        'name' => '医',
+        'title' => '中医学',
         'created_at' => new Carbon(),
         'updated_at' => new Carbon(),
       ],
       [
-        'name' => '日常会話',
+        'name' => '常',
+        'title' => '日常会話',
         'created_at' => new Carbon(),
         'updated_at' => new Carbon(),
       ],
       [
-        'name' => '旅　　行',
+        'name' => '旅',
+        'title' => '旅行',
+        'created_at' => new Carbon(),
+        'updated_at' => new Carbon(),
+      ],
+      [
+        'name' => 'EC',
+        'title' => 'ECサイト',
+        'created_at' => new Carbon(),
+        'updated_at' => new Carbon(),
+      ],
+      [
+        'name' => '★',
+        'title' => 'お気に入り',
         'created_at' => new Carbon(),
         'updated_at' => new Carbon(),
       ],

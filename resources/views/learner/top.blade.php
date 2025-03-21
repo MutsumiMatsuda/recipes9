@@ -24,11 +24,12 @@
         </div>
         <div class="row py-2">
           <a href="{{route('tryTrans')}}">
-            <div class="col-md-6 mx-auto card bg-dark">
-              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'穴埋め難問集作成'}}</div>
+            <div class="col-md-6 mx-auto card bg-warning">
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日の穴埋め！'}}</div>
             </div>
           </a>
         </div>
+        {{--
         <div class="row py-2">
           <a href="{{route('tryPrevTrans')}}">
             <div class="col-md-6 mx-auto card bg-dark">
@@ -36,13 +37,36 @@
             </div>
           </a>
         </div>
+        --}}
         <div class="row py-2">
           <a href="{{route('tryFill')}}">
-            <div class="col-md-6 mx-auto card bg-dark">
-              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'翻訳難問集作成'}}</div>
+            <div class="col-md-6 mx-auto card bg-warning">
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日の翻訳！'}}</div>
             </div>
           </a>
         </div>
+        <div class="row py-2">
+          <a href="{{route('tryFill')}}">
+            <div class="col-md-6 mx-auto card bg-warning">
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日の生薬単語！'}}</div>
+            </div>
+          </a>
+        </div>
+        <div class="row py-2">
+          <a href="{{route('tryFill')}}">
+            <div class="col-md-6 mx-auto card bg-warning">
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日のBiz単語！'}}</div>
+            </div>
+          </a>
+        </div>
+        <div class="row py-2">
+          <a href="{{route('tryFill')}}">
+            <div class="col-md-6 mx-auto card bg-warning">
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日の一般単語！'}}</div>
+            </div>
+          </a>
+        </div>
+        {{--
         <div class="row py-2">
           <a href="{{route('tryPrevFill')}}">
             <div class="col-md-6 mx-auto card bg-dark">
@@ -50,6 +74,7 @@
             </div>
           </a>
         </div>
+        --}}
         <div class="row py-2">
           <a href="{{route('fillIndex')}}">
             <div class="col-md-6 mx-auto card bg-dark">
@@ -58,12 +83,34 @@
           </a>
         </div>
         <div class="row py-2">
-          <a href="{{route('transIndex')}}">
+          <a href="{{route('transIndex', ['t' => LearnQuestion::TRANSLATE])}}">
             <div class="col-md-6 mx-auto card bg-dark">
               <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'翻訳問題一覧'}}</div>
             </div>
           </a>
         </div>
+        <div class="row py-2">
+          <a href="{{route('transIndex', ['t' => LearnQuestion::KANPOWORD])}}">
+            <div class="col-md-6 mx-auto card bg-dark">
+              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'生薬単語一覧'}}</div>
+            </div>
+          </a>
+        </div>
+        <div class="row py-2">
+          <a href="{{route('transIndex', ['t' => LearnQuestion::BIZWORD])}}">
+            <div class="col-md-6 mx-auto card bg-dark">
+              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'Biz単語一覧'}}</div>
+            </div>
+          </a>
+        </div>
+        <div class="row py-2">
+          <a href="{{route('transIndex', ['t' => LearnQuestion::OTHERWORD])}}">
+            <div class="col-md-6 mx-auto card bg-dark">
+              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'一般単語一覧'}}</div>
+            </div>
+          </a>
+        </div>
+        {{--
         <div class="row py-2">
           <a href="{{route('fillHidden')}}">
             <div class="col-md-6 mx-auto card bg-dark">
@@ -78,6 +125,7 @@
             </div>
           </a>
         </div>
+        --}}
       </div>
     </div>
   </main>

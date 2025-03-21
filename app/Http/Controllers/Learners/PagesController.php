@@ -31,7 +31,7 @@ class PagesController extends Controller
    */
   public function transIndex(Request $rq) {
     $p = new Params($rq);
-    $p->type = LearnQuestion::TRANSLATE;
+    //$p->type = LearnQuestion::TRANSLATE;
     $p->hidden = 0;
     $p->title = "翻訳問題一覧";
     $p->setAction();
@@ -164,7 +164,7 @@ class PagesController extends Controller
   }
 
   /**
-   * 翻訳問題新規登録画面表示
+   * 翻訳(単語)問題新規登録画面表示
    */
   public function add(Request $rq) {
      $p = new Params($rq);
@@ -173,7 +173,7 @@ class PagesController extends Controller
   }
 
   /**
-   * 問題新規登録
+   * 翻訳(単語)問題新規登録
    */
   public function create(Request $rq) {
     $p = new Params($rq);
@@ -196,7 +196,7 @@ class PagesController extends Controller
   }
 
   /**
-   * 問題編集ページ表示
+   * 翻訳(単語)問題編集ページ表示
    */
   public function edit(Request $rq) {
     $p = new Params($rq);
@@ -206,7 +206,7 @@ class PagesController extends Controller
   }
 
   /**
-   * 問題更新
+   * 翻訳(単語)問題更新
    */
   public function update(Request $rq) {
     $this->validate($rq, LearnQuestion::$rules);
@@ -231,7 +231,7 @@ class PagesController extends Controller
   }
 
   /**
-   * 問題新規登録画面表示
+   * 穴埋め問題新規登録画面表示
    */
   public function addFill(Request $rq) {
     $p = new Params($rq);
@@ -240,7 +240,7 @@ class PagesController extends Controller
   }
 
   /**
-   * 問題新規登録
+   * 穴埋め問題新規登録
    */
   public function createFill(Request $rq) {
     // バリデーション
@@ -277,7 +277,7 @@ class PagesController extends Controller
   }
 
   /**
-   * 問題編集ページ表示
+   * 穴埋め問題編集ページ表示
    */
   public function editFill(Request $rq) {
     $q = LearnQuestion::find($rq->id);
@@ -287,7 +287,7 @@ class PagesController extends Controller
   }
 
   /**
-   * 問題更新
+   * 穴埋め問題更新
    */
   public function updateFill(Request $rq) {
     // バリデーション

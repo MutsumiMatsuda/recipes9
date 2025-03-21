@@ -49,6 +49,7 @@
 	            <li><a class="nav-link" href="{{ route('login') }}">ログイン</a></li>
   	        {{-- ログインしていたらユーザー名とログアウトボタンを表示 --}}
   	        @else
+              <li><a class="nav-link" href="/learner">中国語問題へ</a></li>
               <li><a class="nav-link" href="/recipe">一般画面へ</a></li>
 	            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -52,7 +52,7 @@
                 <li><a class="nav-link" href="{{ route('login') }}">ログイン</a></li>
               {{-- ログインしていたらユーザー名とログアウトボタンを表示 --}}
               @else
-                <li><a class="nav-link" href="/recipe">一般画面へ</a></li>
+                <li><a class="nav-link" href="/recipe">レシピへ</a></li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -60,16 +60,18 @@
 
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ route('learnerTop') }}">中国語学習トップ</a>
-                    <a class="dropdown-item" href="{{ route('tryFill') }}">穴埋め難問集作成</a>
-                    <a class="dropdown-item" href="{{ route('tryPrevFill') }}">前回の穴埋め難問集</a>
-                    <a class="dropdown-item" href="{{ route('tryTrans') }}">翻訳難問集作成</a>
-                    <a class="dropdown-item" href="{{ route('tryPrevTrans') }}">前回の翻訳難問集</a>
-                    <a class="dropdown-item" href="{{ route('fillIndex') }}">穴埋め問題一覧</a>
+                    <a class="dropdown-item" href="{{ route('fillAdd') }}">穴埋め作成</a>
+                    <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::TRANSLATE]) }}">翻訳作成</a>
+                    <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::KANPOWORD]) }}">生薬単語作成</a>
+                    <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::BIZWORD]) }}">Biz単語作成</a>
+                    <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::OTHERWORD]) }}">一般単語作成</a>
+                    {{--
                     <a class="dropdown-item" href="{{ route('fillAdd') }}">穴埋め問題作成</a>
                     <a class="dropdown-item" href="{{ route('transIndex') }}">翻訳問題一覧</a>
                     <a class="dropdown-item" href="{{ route('transAdd') }}">翻訳問題作成</a>
                     <a class="dropdown-item" href="{{ route('fillHidden') }}">穴埋め問題倉庫</a>
                     <a class="dropdown-item" href="{{ route('transHidden') }}">翻訳問題倉庫</a>
+                    --}}
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                       ログアウト
                     </a>
