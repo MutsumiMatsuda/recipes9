@@ -159,7 +159,7 @@ class Params {
 
   // 問題詳細ページへのリンクを返す
   public static function link2Detail($id, $p) {
-    $url = route(LearnQuestion::TRANSLATE == $p->type ? 'transDetail' : 'fillDetail', self::paramsWithId($id, $p));
+    $url = route(LearnQuestion::FILLBLANK == $p->type ? 'fillDetail' : 'transDetail', self::paramsWithId($id, $p));
     return $url;
   }
 
@@ -168,13 +168,13 @@ class Params {
     $url = '';
     // 問題集挑戦中ならば問題集へのリンクを返す
     if (!empty($p->tryId) && 0 < $p->tryId) {
-      $url = route(LearnQuestion::TRANSLATE == $p->type ? 'tryPrevTrans' : 'tryPrevFill', $p->getWithoutId());
+      $url = route(LearnQuestion::FILLBLANK == $p->type ? 'tryPrevFill' : 'tryPrevTrans', $p->getWithoutId());
     } else {
       $r = '';
-      if (LearnQuestion::TRANSLATE == $p->type) {
-        $r = 0 == $p->hidden ? 'transIndex' : 'transHiddenIndex';
-      } else {
+      if (LearnQuestion::FILLBLANK == $p->type) {
         $r = 0 == $p->hidden ? 'fillIndex' : 'fillHiddenIndex';
+      } else {
+        $r = 0 == $p->hidden ? 'transIndex' : 'transHiddenIndex';
       }
       $url = route($r, $p->getWithoutId());
     }
