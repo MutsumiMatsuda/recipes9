@@ -352,15 +352,15 @@ class PagesController extends Controller
    */
   public function tryTrans(Request $rq) {
     Tryout::createHard(LearnQuestion::TRANSLATE);
-    return redirect()->route('tryPrevTrans');
+    return redirect()->route('tryPrevTrans', ['t' => LearnQuestion::TRANSLATE]);
   }
 
   /**
    * 前回の難易度高め翻訳問題集を一覧表示
    */
   public function tryPrevTrans(Request $rq) {
-    $tryout = Tryout::latest(LearnQuestion::TRANSLATE);
     $p = new Params($rq);
+    $tryout = Tryout::latest($p->type);
     $p->tryId = $tryout->id;
     return view('learner.q-tryout', compact(['tryout', 'p']));
   }
@@ -370,17 +370,41 @@ class PagesController extends Controller
    */
   public function tryFill(Request $rq) {
     Tryout::createHard(LearnQuestion::FILLBLANK);
-    return redirect()->route('tryPrevFill');
+    return redirect()->route('tryPrevFill', ['t' => LearnQuestion::FILLBLANK]);
   }
 
   /**
    * 前回の難易度高め穴埋め問題集を一覧表示
    */
   public function tryPrevFill(Request $rq) {
-    $tryout = Tryout::latest(LearnQuestion::FILLBLANK);
     $p = new Params($rq);
+    $tryout = Tryout::latest($p->type);
     $p->tryId = $tryout->id;
     return view('learner.q-tryout', compact(['tryout', 'p']));
+  }
+
+  /**
+   * 難易度高めの生薬単語問題集を新規作成して一覧表示
+   */
+  public function tryKanpo(Request $rq) {
+    Tryout::createHard(LearnQuestion::KANPOWORD);
+    return redirect()->route('tryPrevTrans', ['t' => LearnQuestion::KANPOWORD]);
+  }
+
+  /**
+   * 難易度高めのビジネス単語問題集を新規作成して一覧表示
+   */
+  public function tryBiz(Request $rq) {
+    Tryout::createHard(LearnQuestion::BIZWORD);
+    return redirect()->route('tryPrevTrans', ['t' => LearnQuestion::BIZWORD]);
+  }
+
+  /**
+   * 難易度高めのその他単語問題集を新規作成して一覧表示
+   */
+  public function tryOther(Request $rq) {
+    Tryout::createHard(LearnQuestion::OTHERWORD);
+    return redirect()->route('tryPrevTrans', ['t' => LearnQuestion::OTHERWORD]);
   }
 
   /**

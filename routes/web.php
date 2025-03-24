@@ -169,6 +169,11 @@ Route::post('learner/fill/add', [App\Http\Controllers\Learners\PagesController::
 Route::get('learner/fill/edit', [App\Http\Controllers\Learners\PagesController::class, 'editFill'])->name('fillEdit');
 Route::post('learner/fill/update', [App\Http\Controllers\Learners\PagesController::class, 'updateFill'])->name('fillUpdate');
 
+Route::get('learner/kanpoword/try', [App\Http\Controllers\Learners\PagesController::class, 'tryKanpo'])->name('tryKanpo');
+Route::get('learner/bizword/try', [App\Http\Controllers\Learners\PagesController::class, 'tryBiz'])->name('tryBiz');
+Route::get('learner/otherword/try', [App\Http\Controllers\Learners\PagesController::class, 'tryOther'])->name('tryOther');
+
+
 Route::post('learner/chinese', [App\Http\Controllers\Learners\PagesController::class, 'getChinese'])->name('chinese');
 Route::post('learner/pinyin', [App\Http\Controllers\Learners\PagesController::class, 'getPinyin'])->name('pinyin');
 

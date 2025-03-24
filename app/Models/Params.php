@@ -70,6 +70,11 @@ class Params {
             'ti' => $this->tagId, 'page' => $this->page];
   }
 
+  // ページのタイトルを返す
+  public function getTitle($tail = '') {
+    return LearnQuestion::getTitle($this->type) . $tail;
+  }
+
   /*------------------------------
     スタティックメンバー
   -------------------------------*/

@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="row py-2">
-          <a href="{{route('tryTrans')}}">
+          <a href="{{route('tryFill')}}">
             <div class="col-md-6 mx-auto card bg-warning">
               <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日の穴埋め！'}}</div>
             </div>
@@ -39,28 +39,28 @@
         </div>
         --}}
         <div class="row py-2">
-          <a href="{{route('tryFill')}}">
+          <a href="{{route('tryTrans')}}">
             <div class="col-md-6 mx-auto card bg-warning">
               <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日の翻訳！'}}</div>
             </div>
           </a>
         </div>
         <div class="row py-2">
-          <a href="{{route('tryFill')}}">
+          <a href="{{route('tryKanpo')}}">
             <div class="col-md-6 mx-auto card bg-warning">
               <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日の生薬単語！'}}</div>
             </div>
           </a>
         </div>
         <div class="row py-2">
-          <a href="{{route('tryFill')}}">
+          <a href="{{route('tryBiz')}}">
             <div class="col-md-6 mx-auto card bg-warning">
               <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日のBiz単語！'}}</div>
             </div>
           </a>
         </div>
         <div class="row py-2">
-          <a href="{{route('tryFill')}}">
+          <a href="{{route('tryOther')}}">
             <div class="col-md-6 mx-auto card bg-warning">
               <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日の一般単語！'}}</div>
             </div>
