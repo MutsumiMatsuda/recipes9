@@ -65,6 +65,7 @@
                     <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::KANPOWORD]) }}">生薬単語作成</a>
                     <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::BIZWORD]) }}">Biz単語作成</a>
                     <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::OTHERWORD]) }}">一般単語作成</a>
+                    <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::ENGWORD]) }}">英単語作成</a>
                     {{--
                     <a class="dropdown-item" href="{{ route('fillAdd') }}">穴埋め問題作成</a>
                     <a class="dropdown-item" href="{{ route('transIndex') }}">翻訳問題一覧</a>

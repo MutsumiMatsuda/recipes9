@@ -33,10 +33,13 @@
               <div class="col-md-12">
                 <textarea id="tts-txt" name="a" rows="3" cols="33" readonly="true">{{$q->a}}</textarea>
               </div>
-              <div class="form-group row"><div class="col-md-3 mx-auto button"><button id="play" type="button" class="btn btn-light btn-outline-dark" onclick="speak()">発音</button></div></div>
+              @if(LearnQuestion::ENGWORD != $p->type)
+              <div class="form-group row"><div class="col-md-4 mx-auto button"><button id="play" type="button" class="btn btn-light btn-outline-dark" onclick="speak()">発音</button></div></div>
+              @endif
             </div>
           </div>
         </div>
+        @if(LearnQuestion::ENGWORD != $p->type)
         <div class="form-group row" style="font-size: 20; color: white;">
           <div class="col-md-10 mx-auto">
             <div class="card-head text-light">ピンイン</div>
@@ -57,6 +60,7 @@
             </div>
           </div>
         </div>
+        @endif
         @csrf
         <div class="form-group row py-4 mx-auto">
           <div class="col-md-12">

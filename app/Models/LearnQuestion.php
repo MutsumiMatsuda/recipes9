@@ -31,9 +31,10 @@ class LearnQuestion extends Model
   const KANPOWORD = 2;  // 生薬単語
   const BIZWORD = 3;    // ビジネス単語
   const OTHERWORD = 4;  // 一般単語
+  const ENGWORD = 5;    // 英単語
 
   // 画面タイトル
-  public static $pageTitles = array('翻訳', '穴埋め', '生薬単語', 'ビジネス単語', '一般単語');
+  public static $pageTitles = array('翻訳', '穴埋め', '生薬単語', 'ビジネス単語', '一般単語', '英単語');
 
   // 穴埋め問題の区切り文字
   const FILL_DELIMITER = '*';

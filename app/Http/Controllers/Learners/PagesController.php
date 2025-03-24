@@ -154,7 +154,7 @@ class PagesController extends Controller
   /**
    * 翻訳問題の解答チェック
    */
-   public function qCheck(Request $rq) {
+  public function qCheck(Request $rq) {
     $p = new Params($rq);
     $this->validate($rq, LearnQuestion::$ansRules);
     $q = LearnQuestion::find($rq->id);
@@ -408,6 +408,14 @@ class PagesController extends Controller
   }
 
   /**
+   * 難易度高めの英単語問題集を新規作成して一覧表示
+   */
+  public function tryEnglish(Request $rq) {
+    Tryout::createHard(LearnQuestion::ENGWORD);
+    return redirect()->route('tryPrevTrans', ['t' => LearnQuestion::ENGWORD]);
+  }
+
+  /**
    * 中国語に翻訳
    */
   public function getChinese(Request $rq) {
@@ -426,6 +434,13 @@ class PagesController extends Controller
     return response()->json(['pinyin' => $pinyin, 'english' => $english]);
   }
 
+    /**
+     * 英語に翻訳
+     */
+    public function getEnglish(Request $rq) {
+      $en = GoogleTranslate::trans($rq->japanese, 'en');
+      return response()->json(['en' => $en]);
+    }
   /*------------------------------
     スタティックメンバー
   -------------------------------*/

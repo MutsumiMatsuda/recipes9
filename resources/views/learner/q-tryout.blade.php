@@ -32,9 +32,9 @@
               <div class="col-md-10 mx-auto card my-2 @if($i % 2) bg-primary @else bg-info @endif" style="color: white">
                 <div class="card-body ps-0">
                   @if($item->type == LearnQuestion::FILLBLANK)
-                  <a href="{{'/learner/fill/detail?id=' . $item->id . '&to=' . $p->tryId}}">
+                  <a href="{{'/learner/fill/detail?id=' . $item->id . '&to=' . $p->tryId . '&t=' . $p->type}}">
                   @else
-                  <a href="{{'/learner/detail?id=' . $item->id . '&to=' . $p->tryId}}">
+                  <a href="{{'/learner/detail?id=' . $item->id . '&to=' . $p->tryId . '&t=' . $p->type}}">
                   @endif
                     <label class="form-check-label form-control-lg" style="color: white">
                       {{LearnQuestion::dspFillIndexQ($item)}}

@@ -32,7 +32,11 @@
           @endif
           <div class="form-group row" style="font-size: 20; color: white;">
             <div class="col-md-10 mx-auto">
+              @if(LearnQuestion::ENGWORD != $p->type)
               日本語　<button type="button" class="btn btn-primary" onclick="getChinese()">翻訳</button>
+              @else
+              日本語　<button type="button" class="btn btn-primary" onclick="getEnglish()">翻訳</button>
+              @endif
             </div>
             <div class="col-md-10 mx-auto">
               <div class="row card bg-info form-check">
@@ -44,7 +48,7 @@
           </div>
           <div class="form-group row" style="font-size: 20; color: white;">
             <div class="col-md-10 mx-auto">
-              中国語
+              @if(LearnQuestion::ENGWORD != $p->type) 中国語 @else 英語 @endif
             </div>
             <div class="col-md-10 mx-auto">
               <div class="row card bg-info form-check">
@@ -78,6 +82,7 @@
               </div>
             </div>
           </div>
+          @if(LearnQuestion::ENGWORD != $p->type)
           <div class="form-group row" style="font-size: 20; color: white;">
             <div class="col-md-10 mx-auto">
               ピンイン　<button type="button" class="btn btn-primary" onclick="getPinyin()">変換</button>
@@ -102,6 +107,7 @@
               </div>
             </div>
           </div>
+          @endif
           {{-- タグ --}}
           <div class="row py-2">
             @foreach($tags as $item)
