@@ -34,59 +34,50 @@
   <div id="app">
     {{-- 画面上部に表示するナビゲーションバーです。 --}}
     <div class='fixed-top mb-2'>
-      <nav class="navbar navbar-expand-md navbar-dark navbar-laravel">
-        <div class="container">
-          <a class="navbar-brand" href="{{ url('/learner') }}">
-            問題集
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <nav class="navbar navbar-expand-md bg-body-secondary" data-bs-theme="dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{{ url('/learner') }}">問題集</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="ナビゲーションの切替">
             <span class="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav ms-auto">
-              <!-- Authentication Links -->
-              {{-- ログインしていなかったらログイン画面へのリンクを表示 --}}
+          <div class="collapse navbar-collapse" id="navbar">
+             <!-- Left Side Of Navbar -->
+            <ul class="navbar-nav me-auto">
               @guest
-                <li><a class="nav-link" href="{{ route('login') }}">ログイン</a></li>
-              {{-- ログインしていたらユーザー名とログアウトボタンを表示 --}}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ route('login') }}">>ログイン</a>
+              </li>
               @else
-                <li><a class="nav-link" href="/recipe">レシピへ</a></li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ Auth::user()->name }} <span class="caret"></span>
-                  </a>
-
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('learnerTop') }}">中国語学習トップ</a>
-                    <a class="dropdown-item" href="{{ route('fillAdd') }}">穴埋め作成</a>
-                    <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::TRANSLATE]) }}">翻訳作成</a>
-                    <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::KANPOWORD]) }}">生薬単語作成</a>
-                    <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::BIZWORD]) }}">Biz単語作成</a>
-                    <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::OTHERWORD]) }}">一般単語作成</a>
-                    <a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::ENGWORD]) }}">英単語作成</a>
-                    {{--
-                    <a class="dropdown-item" href="{{ route('fillAdd') }}">穴埋め問題作成</a>
-                    <a class="dropdown-item" href="{{ route('transIndex') }}">翻訳問題一覧</a>
-                    <a class="dropdown-item" href="{{ route('transAdd') }}">翻訳問題作成</a>
-                    <a class="dropdown-item" href="{{ route('fillHidden') }}">穴埋め問題倉庫</a>
-                    <a class="dropdown-item" href="{{ route('transHidden') }}">翻訳問題倉庫</a>
-                    --}}
-                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                      ログアウト
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                      @csrf
-                    </form>
-                  </div>
-                </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/recipe">レシピへ</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{{ route('learnerTop') }}">中国語学習トップ</a></li>
+                  <li><a class="dropdown-item" href="{{ route('fillAdd') }}">穴埋め作成</a></li>
+                  <li><a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::TRANSLATE]) }}">翻訳作成</a></li>
+                  <li><a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::KANPOWORD]) }}">生薬単語作成</a></li>
+                  <li><a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::BIZWORD]) }}">Biz単語作成</a></li>
+                  <li><a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::OTHERWORD]) }}">一般単語作成</a></li>
+                  <li><a class="dropdown-item" href="{{ route('transAdd', ['t' => LearnQuestion::ENGWORD]) }}">英単語作成</a></li>
+                  {{--
+                  <li><a class="dropdown-item" href="{{ route('fillAdd') }}">穴埋め問題作成</a></li>
+                  <li><a class="dropdown-item" href="{{ route('transIndex') }}">翻訳問題一覧</a></li>
+                  <li><a class="dropdown-item" href="{{ route('transAdd') }}">翻訳問題作成</a></li>
+                  <li><a class="dropdown-item" href="{{ route('fillHidden') }}">穴埋め問題倉庫</a></li>
+                  <li><a class="dropdown-item" href="{{ route('transHidden') }}">翻訳問題倉庫</a></li>
+                  --}}
+                  <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    ログアウト
+                  </a></li>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                     @csrf
+                  </form>
+                </ul>
+              </li>
               @endguest
-            </ul>
-
-            <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav">
-
             </ul>
           </div>
         </div>
