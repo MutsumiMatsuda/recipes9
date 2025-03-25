@@ -33,9 +33,15 @@
               <div class="col-md-12">
                 <textarea id="tts-txt" name="a" rows="3" cols="33" readonly="true">{{$q->a}}</textarea>
               </div>
-              @if(LearnQuestion::ENGWORD != $p->type)
-              <div class="form-group row"><div class="col-md-4 mx-auto button"><button id="play" type="button" class="btn btn-light btn-outline-dark" onclick="speak()">発音</button></div></div>
-              @endif
+              <div class="form-group row">
+                <div class="col-md-4 mx-auto button">
+                  @if(LearnQuestion::ENGWORD == $p->type)
+                  <button id="play" type="button" class="btn btn-light btn-outline-dark" onclick="speak('en-US')">発音</button>
+                  @else
+                  <button id="play" type="button" class="btn btn-light btn-outline-dark" onclick="speak('zh-CN')">発音</button>
+                  @endif
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -86,7 +92,7 @@ function setVoices() {
   voices = speechSynthesis.getVoices();
 }
 
-function speak() {
+function speak(lang) {
   if (window.speechSynthesis) {
 
     setVoices();
@@ -98,12 +104,12 @@ function speak() {
     uttr.text = document.getElementById('tts-txt').value;
 
     // 言語を設定
-    uttr.lang = 'zh-CN';
+    uttr.lang = lang;
 
     // 英語に対応しているvoiceを設定
     let found = false;
     for (let i = 0; i < voices.length; i++) {
-      if (voices[i].lang === 'zh-CN') {
+      if (voices[i].lang === lang) {
         uttr.voice = voices[i];
         found = true;
         break;
@@ -111,7 +117,7 @@ function speak() {
     }
 
     if (!found) {
-      alert("お使いのブラウザは、中国語音声に対応していません。\n他のブラウザをお試しください。");
+      alert("お使いのブラウザは、音声読み上げに対応していません。\n他のブラウザをお試しください。");
     } else {
       // 発言を再生
       window.speechSynthesis.speak(uttr);
