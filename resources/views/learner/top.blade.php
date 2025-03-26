@@ -48,7 +48,7 @@
         <div class="row py-2">
           <a href="{{route('tryKanpo')}}">
             <div class="col-md-6 mx-auto card bg-warning">
-              <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日の生薬単語！'}}</div>
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'今日の生薬化学単語！'}}</div>
             </div>
           </a>
         </div>
@@ -99,7 +99,7 @@
         <div class="row py-2">
           <a href="{{route('transIndex', ['t' => LearnQuestion::KANPOWORD])}}">
             <div class="col-md-6 mx-auto card bg-dark">
-              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'生薬単語一覧'}}</div>
+              <div class="align-items-center text-center" style="font-size: 20px; color: white">{{'生薬化学単語一覧'}}</div>
             </div>
           </a>
         </div>
