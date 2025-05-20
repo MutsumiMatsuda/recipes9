@@ -1,0 +1,63 @@
+.CuteButton-wrapper {
+  position: relative;
+}
+
+.CuteButton {
+  font-family: "Gilroy ExtraBold", system-ui, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: 2px;
+  font-size: 22px;
+  line-height: 68px;
+  text-transform: uppercase;
+  background: #F4157E;
+  color: #F8FAFF;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: none;
+  border-radius: 10px;
+  min-width: 200px;
+  padding: 0 24px;
+  box-shadow: 0 10px 60px -10px #CD106E;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  transform-style: preserve-3d;
+  transform: perspective(250px) scale3d(1, 1, 1);
+  transition: all 1s cubic-bezier(0.03, 0.98, 0.52, 0.99);
+  will-change: transform, box-shadow, background;
+  outline: none;
+  position: relative;
+  z-index: 2;
+}
+.CuteButton:hover {
+  background: rgb(244.4579591837, 30.7420408163, 131.3706122449);
+  box-shadow: 0 8px 65px -5px #CD106E;
+}
+.CuteButton:active {
+  background: #CD106E;
+  box-shadow: 0 10px 60px -10px #CD106E;
+  transform: perspective(250px) scale3d(1, 1, 1) translateY(5%) !important;
+}
+
+.Symbol {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  z-index: -1;
+  animation: explode 0.8s reverse forwards ease-in;
+}
+
+@keyframes explode {
+  from {
+    opacity: 0;
+  }
+  to {
+    top: 50%;
+    left: 50%;
+    opacity: 1;
+  }
+}

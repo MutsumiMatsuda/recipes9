@@ -9,6 +9,7 @@
 
 @section('customcss')
 <link href="{{asset('css/' . $style . '.css')}}" rel="stylesheet">
+<link href="{{asset('css/cute-button.css')}}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -21,6 +22,9 @@
           <div class="col-md-6 mx-auto card bg-light"  style="color : black;">
             <div class="align-items-center text-center" style="font-size: 20px; color: black">中国語の学習</div>
           </div>
+        </div>
+        <div class="row">
+          {{Tag::cuteButton("生化")}}
         </div>
         <div class="row py-2">
           <a href="{{route('tryFill')}}">
@@ -144,4 +148,8 @@
     </div>
   </main>
 </div>
+{{Tag::cuteButtonParts()}}
+@endsection
+@section('js')
+  {{Tag::cuteButtonJs()}}
 @endsection

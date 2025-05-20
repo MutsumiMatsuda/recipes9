@@ -16,6 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
   .sass('resources/sass/common.scss', 'public/css')
   .sass('resources/sass/front.scss', 'public/css')
   .sass('resources/sass/custom.scss', 'public/css')
+  .sass('resources/sass/cute-button.scss', 'public/css')
   .sourceMaps()
   .autoload({jquery: ["$", "window.jQuery"],})
   ;
