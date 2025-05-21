@@ -31,7 +31,7 @@ class Tryout extends Model
   // 難問問題集新規作成
   public static function createHard($type) {
     // 指定タイプの問題から正解率が低い問題を指定数取得
-    $list = LearnQuestion::where([['type', $type], ['hidden', false]])->orderBy('ratio', 'asc')->take(self::Q_PER_TRY)->get();
+    $list = LearnQuestion::where([['q_type_id', $type], ['hidden', false]])->orderBy('ratio', 'asc')->take(self::Q_PER_TRY)->get();
 
     // 問題集テーブル更新
     $tryout = new Tryout();

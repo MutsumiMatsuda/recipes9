@@ -20,6 +20,25 @@ class Tag
     echo "<p>こんにちは</p>";
   }
 
+  public static function cuteBtnCss() {
+$tag = <<< EOM
+<style>
+.CuteBtn {
+  font-family: "Modak", cursive;
+  font-size: 20px;
+  display: inline-block;
+  padding: 0.2em 1em 0.1em;
+  color: #ff0066;
+  border: solid 2px #ff0066;
+  border-radius: 5px;
+  background-color: #fff0f8;
+  cursor: pointer;
+}
+</style>
+EOM;
+    echo $tag;
+  }
+
   /**
   * 文字列が等価であるかの真偽値を返す
   *
@@ -27,11 +46,9 @@ class Tag
   * @param  比較対象String２
   * @return 文字列が等価ならtrue、それ以外の場合はfalse
   */
-  public static function cuteButton($text) {
+  public static function cuteBtnHtml($text) {
 $tag = <<< EOM
-<div class="CuteButton-wrapper">
-  <button class="CuteButton">{$text}</button>
-</div>
+<button class="CuteBtn">{$text}</button>
 EOM;
     echo $tag;
   }

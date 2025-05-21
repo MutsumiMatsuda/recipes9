@@ -1,7 +1,7 @@
 @extends('learner.layouts.common')
 
 {{-- title --}}
-@section('title', LearnQuestion::pageTitle($p->type) . '問題編集')
+@section('title', LearnQuestion::pageTitle($p->q_type_id) . '問題編集')
 
 @section('customjs')
 <script src="{{ asset('js/sakura.js') }}" defer></script>

@@ -26,15 +26,15 @@ class LearnQuestion extends Model
   const PAGENATE = 10;
 
   // 問題種類
-  const TRANSLATE = 0;  // 翻訳
-  const FILLBLANK = 1;  // 穴埋め
-  const KANPOWORD = 2;  // 生薬単語
-  const BIZWORD = 3;    // ビジネス単語
-  const OTHERWORD = 4;  // 一般単語
-  const ENGWORD = 5;    // 英単語
+  const TRANSLATE = 1;  // 翻訳
+  const FILLBLANK = 2;  // 穴埋め
+  const KANPOWORD = 3;  // 生薬単語
+  const BIZWORD = 4;    // ビジネス単語
+  const OTHERWORD = 5;  // 一般単語
+  const ENGWORD = 6;    // 英単語
 
   // 画面タイトル
-  public static $pageTitles = array('翻訳', '穴埋め', '生薬化学単語', 'ビジネス単語', '一般単語', '英単語');
+  public static $pageTitles = array('', '翻訳', '穴埋め', '生薬化学単語', 'ビジネス単語', '一般単語', '英単語');
 
   // 穴埋め問題の区切り文字
   const FILL_DELIMITER = '*';
@@ -73,29 +73,29 @@ class LearnQuestion extends Model
       // タグが指定された場合
       $qTag = QTag::find($p->tagId);
       if (empty($p->query)) {
-        return self::query()->where([['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+        return self::query()->where([['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
           whereIn('id', $qTag->questionIds())->
           orderBy($p->sort, $p->order);
       } else {
         return self::query()->
-          where([['q', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['a', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['hint1', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['hint2', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          where([['q', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['a', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['hint1', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['hint2', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
           whereIn('id', $qTag->questionIds())->
           groupBy('id')->orderBy($p->sort, $p->order);
       }
     } else {
       // タグが指定されない場合
       if (empty($p->query)) {
-        return self::query()->where([['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+        return self::query()->where([['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
           orderBy($p->sort, $p->order);
       } else {
         return self::query()->
-          where([['q', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['a', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['hint1', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['hint2', 'like', '%' . $p->query . '%'], ['type', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          where([['q', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['a', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['hint1', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
+          orWhere([['hint2', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
           groupBy('id')->orderBy($p->sort, $p->order);
       }
     }

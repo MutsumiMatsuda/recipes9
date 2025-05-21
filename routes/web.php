@@ -174,6 +174,13 @@ Route::get('learner/bizword/try', [App\Http\Controllers\Learners\PagesController
 Route::get('learner/otherword/try', [App\Http\Controllers\Learners\PagesController::class, 'tryOther'])->name('tryOther');
 Route::get('learner/english/try', [App\Http\Controllers\Learners\PagesController::class, 'tryEnglish'])->name('tryEnglish');
 
+Route::get('learner/type', [App\Http\Controllers\Learners\TypeController::class, 'index'])->name('typeIndex');
+Route::get('learner/type/detail', [App\Http\Controllers\Learners\TypeController::class, 'detail'])->name('typeDetail');
+Route::get('learner/type/add', [App\Http\Controllers\Learners\TypeController::class, 'add'])->name('typeAdd');
+Route::post('learner/type/create', [App\Http\Controllers\Learners\TypeController::class, 'create'])->name('typeCreate');
+Route::get('learner/type/edit', [App\Http\Controllers\Learners\TypeController::class, 'edit'])->name('typeEdit');
+Route::post('learner/type/update', [App\Http\Controllers\Learners\TypeController::class, 'update'])->name('typeUpdate');
+
 
 Route::post('learner/chinese', [App\Http\Controllers\Learners\PagesController::class, 'getChinese'])->name('chinese');
 Route::post('learner/pinyin', [App\Http\Controllers\Learners\PagesController::class, 'getPinyin'])->name('pinyin');

@@ -9,7 +9,7 @@
 
 @section('customcss')
 <link href="{{asset('css/' . $style . '.css')}}" rel="stylesheet">
-<link href="{{asset('css/cute-button.css')}}" rel="stylesheet">
+{{Tag::cuteBtnCss()}}
 @endsection
 
 @section('content')
@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="row">
-          {{Tag::cuteButton("生化")}}
+          {{Tag::cuteBtnHtml("生化")}}
         </div>
         <div class="row py-2">
           <a href="{{route('tryFill')}}">
@@ -151,5 +151,4 @@
 {{Tag::cuteButtonParts()}}
 @endsection
 @section('js')
-  {{Tag::cuteButtonJs()}}
 @endsection

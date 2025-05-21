@@ -15,7 +15,7 @@ class CreateLearnQuestionsTable extends Migration
   {
     Schema::create('learn_questions', function (Blueprint $table) {
       $table->bigIncrements('id');
-      $table->integer('type')->comment('種類');
+      $table->integer('q_type_id')->comment('種類');
       $table->string('q')->comment('問題');
       $table->string('a')->comment('正解');
       $table->string('hint1')->nullable()->comment('ヒント1');
