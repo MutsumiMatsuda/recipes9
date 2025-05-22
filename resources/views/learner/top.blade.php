@@ -17,15 +17,79 @@
 <div id="wrapper">
   <main class="py-3">
     <div class="row">
-      <div class="col-md-3 mx-auto card">
+      <div class="col-md-3 mx-auto card bg-secondary">
         <div class="row py-1">
-          <div class="col-md-6 mx-auto card bg-light"  style="color : black;">
-            <div class="align-items-center text-center" style="font-size: 20px; color: black">中国語の学習</div>
+          <div class="col-md-6 mx-auto card bg-light" style="color : black;">
+            <div class="align-items-center text-center" style="font-size: 20px; color: black">問題集</div>
           </div>
         </div>
-        <div class="row">
-          {{Tag::cuteBtnHtml("生化")}}
+        {{-- タブナビゲーション --}}
+        <ul class="nav nav-pills mb-3" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link active text-secondary" style="color: black"　id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab" aria-controls="home-tab-pane" aria-selected="true">今日の！</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" role="tab" aria-controls="profile-tab-pane" aria-selected="false">一　覧</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" role="tab" aria-controls="contact-tab-pane" aria-selected="false">登　録</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button type="button" class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" role="tab" aria-controls="disabled-tab-pane" aria-selected="false">種　類</button>
+          </li>
+        </ul>
+        {{-- パネル部分 --}}
+        <div id="myTabContent" class="tab-content">
+          <div class="tab-pane active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="col-md-6 mx-auto card bg-light" style="color : black;">
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">今日の問題！</div>
+            </div>
+            <div class="row mx-auto py-2">
+              @foreach($list as $item)
+                <div class="col-4 py-2">
+                {{Tag::cuteBtnHtml($item->icon)}}
+                </div>
+              @endforeach
+            </div>
+          </div>
+          <div class="tab-pane" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <div class="col-md-6 mx-auto card bg-light" style="color : black;">
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">一覧表示</div>
+            </div>
+            <div class="row mx-auto py-2">
+              @foreach($list as $item)
+                <div class="col-4 py-2">
+                {{Tag::cuteBtnHtml($item->icon)}}
+                </div>
+              @endforeach
+            </div>
+          </div>
+          <div class="tab-pane" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+            <div class="col-md-6 mx-auto card bg-light" style="color : black;">
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">問題の登録</div>
+            </div>
+            <div class="row mx-auto py-2">
+              @foreach($list as $item)
+                <div class="col-4 py-2">
+                {{Tag::cuteBtnHtml($item->icon)}}
+                </div>
+              @endforeach
+            </div>
+          </div>
+          <div class="tab-pane" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+            <div class="col-md-6 mx-auto card bg-light" style="color : black;">
+              <div class="align-items-center text-center" style="font-size: 20px; color: black">問題の種類</div>
+            </div>
+            <div class="row mx-auto py-2">
+              @foreach($list as $item)
+                <div class="col-4 py-2">
+                {{Tag::cuteBtnHtml($item->icon)}}
+                </div>
+              @endforeach
+            </div>
+          </div>
         </div>
+
         <div class="row py-2">
           <a href="{{route('tryFill')}}">
             <div class="col-md-6 mx-auto card bg-warning">

@@ -9,6 +9,7 @@ use App\Models\LearnQuestion;
 use App\Models\Tryout;
 use App\Models\Params;
 use App\Models\QTag;
+use App\Models\QType;
 use App\Models\LearnQuestionTag;
 use Validator;
 use Carbon\Carbon;
@@ -21,7 +22,7 @@ class PagesController extends Controller
    * 中国語勉強サイトトップ
    */
   public function qtop(Request $rq) {
-    $list = LearnQuestion::all()->sortBy('a');
+    $list = QType::all()->sortBy('id');
     $style = 'sakura';
     return view('learner.top', compact(['list', 'style']));
   }
