@@ -33,6 +33,8 @@ class Params {
   public $tryId = 0;
   // タグid
   public $tagId = 0;
+  // トップページタブ
+  public $tab = Tab::TAB_TRYOUT;
 
   // リクエストを指定するコンストラクタ
   function __construct(Request $rq) {
@@ -44,6 +46,7 @@ class Params {
     $this->order = empty($rq->o) ? 'asc' : $rq->o;
     $this->tryId = empty($rq->to) ? 0 : $rq->to;
     $this->tagId = empty($rq->ti) ? 0 : $rq->ti;
+    $this->tab = empty($rq->tb) ? TAB_TRYOUT : $rq->tb;
   }
 
   // タイプと表示非表示によってaction属性を設定する
@@ -60,19 +63,29 @@ class Params {
   public function get() {
     return ['t' => $this->type, 'h' => $this->hidden, 'qr' => $this->query,
             's' => $this->sort, 'o' => $this->order, 'to' => $this->tryId,
-            'ti' => $this->tagId, 'id' => $this->id, 'page' => $this->page];
+            'ti' => $this->tagId, 'id' => $this->id, 'page' => $this->page,
+            'tb' => $this->tab
+           ];
   }
 
   // id以外のパラメータを連想配列として返す
   public function getWithoutId() {
     return ['t' => $this->type, 'h' => $this->hidden, 'qr' => $this->query,
             's' => $this->sort, 'o' => $this->order, 'to' => $this->tryId,
-            'ti' => $this->tagId, 'page' => $this->page];
+            'ti' => $this->tagId, 'page' => $this->page, 'tb' => $this->tab];
   }
 
   // ページのタイトルを返す
   public function getTitle($tail = '') {
     return LearnQuestion::getTitle($this->type) . $tail;
+  }
+
+  /**
+   * トップページの有効タブ指定
+   * @return 有効タブの場合、activeを返す
+   */
+  public static function acTab($tabId) {
+    return $this->tab == $tabId ? 'active' : '';
   }
 
   /*------------------------------
@@ -90,13 +103,14 @@ class Params {
   public static function paramsWithId($id, $p) {
     return ['id' => $id, 't' => $p->type, 'h' => $p->hidden, 'qr' => $p->query,
             's' => $p->sort, 'o' => $p->order, 'to' => $p->tryId,
-            'ti' => $p->tagId, 'page' => $p->page];
+            'ti' => $p->tagId, 'page' => $p->page, 'tb' => $this->tab];
   }
 
   public static function addPageLink($p) {
     return '&t=' . $p->type . '&h=' . $p->hidden . '&qr=' . $p->query .
             '&ti=' . $p->tagId .
-            '&s=' . $p->sort . '&o=' . $p->order . '&to=' . $p->tryId;
+            '&s=' . $p->sort . '&o=' . $p->order . '&to=' . $p->tryId .
+            '&tb=' . $p->tab;
   }
 
   // 「番号」ソートボタンのclassを返す

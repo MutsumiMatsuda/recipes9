@@ -26,21 +26,21 @@
         {{-- タブナビゲーション --}}
         <ul class="nav nav-pills mb-3" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link active text-secondary" style="color: black"　id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" role="tab" aria-controls="home-tab-pane" aria-selected="true">今日の！</button>
+            <button type="button" class="nav-link active" id="try-tab" data-bs-toggle="tab" data-bs-target="#try-tab-pane" role="tab" aria-controls="try-tab-pane" aria-selected="true">今日の！</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" role="tab" aria-controls="profile-tab-pane" aria-selected="false">一　覧</button>
+            <button type="button" class="nav-link" id="idx-tab" data-bs-toggle="tab" data-bs-target="#idx-tab-pane" role="tab" aria-controls="idx-tab-pane" aria-selected="false">一　覧</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" role="tab" aria-controls="contact-tab-pane" aria-selected="false">登　録</button>
+            <button type="button" class="nav-link" id="add-tab" data-bs-toggle="tab" data-bs-target="#add-tab-pane" role="tab" aria-controls="add-tab-pane" aria-selected="false">登　録</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button type="button" class="nav-link" id="disabled-tab" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane" role="tab" aria-controls="disabled-tab-pane" aria-selected="false">種　類</button>
+            <button type="button" class="nav-link" id="type-tab" data-bs-toggle="tab" data-bs-target="#type-tab-pane" role="tab" aria-controls="type-tab-pane" aria-selected="false">種　類</button>
           </li>
         </ul>
         {{-- パネル部分 --}}
         <div id="myTabContent" class="tab-content">
-          <div class="tab-pane active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+          <div class="tab-pane active" id="try-tab-pane" role="tabpanel" aria-labelledby="try-tab" tabindex="0">
             <div class="col-md-6 mx-auto card bg-light" style="color : black;">
               <div class="align-items-center text-center" style="font-size: 20px; color: black">今日の問題！</div>
             </div>
@@ -52,7 +52,7 @@
               @endforeach
             </div>
           </div>
-          <div class="tab-pane" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+          <div class="tab-pane" id="idx-tab-pane" role="tabpanel" aria-labelledby="idx-tab" tabindex="0">
             <div class="col-md-6 mx-auto card bg-light" style="color : black;">
               <div class="align-items-center text-center" style="font-size: 20px; color: black">一覧表示</div>
             </div>
@@ -64,7 +64,7 @@
               @endforeach
             </div>
           </div>
-          <div class="tab-pane" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+          <div class="tab-pane" id="add-tab-pane" role="tabpanel" aria-labelledby="add-tab" tabindex="0">
             <div class="col-md-6 mx-auto card bg-light" style="color : black;">
               <div class="align-items-center text-center" style="font-size: 20px; color: black">問題の登録</div>
             </div>
@@ -76,16 +76,27 @@
               @endforeach
             </div>
           </div>
-          <div class="tab-pane" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">
+          <div class="tab-pane" id="type-tab-pane" role="tabpanel" aria-labelledby="type-tab" tabindex="0">
             <div class="col-md-6 mx-auto card bg-light" style="color : black;">
               <div class="align-items-center text-center" style="font-size: 20px; color: black">問題の種類</div>
             </div>
             <div class="row mx-auto py-2">
-              @foreach($list as $item)
-                <div class="col-4 py-2">
-                {{Tag::cuteBtnHtml($item->icon)}}
-                </div>
-              @endforeach
+              <div class="row py-2">
+                <a href="{{route('typeIndex')}}">
+                  <div class="col-md-6 mx-auto card bg-warning">
+                    <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'問題種類一覧'}}</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="row mx-auto py-2">
+              <div class="row py-2">
+                <a href="{{route('typeAdd')}}">
+                  <div class="col-md-6 mx-auto card bg-warning">
+                    <div class="align-items-center text-center" style="font-size: 20px; color: black">{{'問題種類登録'}}</div>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -212,7 +223,29 @@
     </div>
   </main>
 </div>
-{{Tag::cuteButtonParts()}}
 @endsection
 @section('js')
+<script>
+  {{Tag::echoTabAry()}}
+  console.log(tabAry);
+  function movePageWithTab(url) {
+    const navs = document.querySelectorAll(".nav-link");
+    let tabNBame = '';
+    let tb = '';
+    let target = '';
+    for(let i = 0; i < navs.length; i++) {
+      const el = navs[i];
+      const c = el.getAttribute("class");
+      if (0 <= c.indexOf('active')) {
+        tabNBame = el.id;
+        console.log(tabNBame);
+        break;
+      }
+      tb = tabAry[tabName];
+      console.log(tb);
+      target = url + "?tb=" + tb;
+      console.log(target);
+    }
+  }
+</script>
 @endsection
