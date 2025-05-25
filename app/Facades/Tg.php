@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Facade;
 /**
 * Bladeのビューで利用できるユーティリティ関数を保持するクラス
 */
-class Tag extends Facade {
+class Tg extends Facade {
   protected static function getFacadeAccessor() {
-    return 'tag';
+    return 'tg';
   }
 }

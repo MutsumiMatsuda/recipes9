@@ -13,9 +13,24 @@ class LearnQuestion extends Model
   -------------------------------*/
   protected $guarded = array('id');
 
+  /**
+   * 問題が持つタグを返す
+   * @return 問題が持つタグ
+   */
   public function tags() {
     return $this->hasManyThrough('App\Models\QTag', 'App\Models\LearnQuestionTag', 'learn_question_id', 'id', null, 'q_tag_id');
   }
+
+  /**
+   * 詳細(チャレンジ)ページへのリンクを返す
+   * @return 問題が持つタグ
+   */
+  public function link2Detail($p) {
+    $r = FILLBLANK == $this->q_type_id ? 'fillDetail' : 'transDetail';
+    return $p->Link2Detail($this->q_type_id);
+  }
+
+
   /*------------------------------
     スタティックメンバー
   -------------------------------*/
@@ -69,6 +84,7 @@ class LearnQuestion extends Model
    * 一覧ページの検索クエリを返す
    */
   public static function getIndexQuery(Params $p) {
+
     if (0 < $p->tagId) {
       // タグが指定された場合
       $qTag = QTag::find($p->tagId);

@@ -59,7 +59,7 @@ class TypeController extends Controller
     $t->order = QType::count() + 1;
     $t->save();
 
-    return redirect()->route('typeIndex', $p->getWithoutId());
+    return redirect()->route('learnerTop', $p->getWithoutId());
   }
 
   /**

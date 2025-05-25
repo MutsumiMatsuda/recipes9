@@ -32,6 +32,7 @@
               <input type="hidden" name="h" value="{{$p->hidden}}"/>
               <input type="hidden" name="s" value="{{$p->sort}}"/>
               <input type="hidden" name="o" value="{{$p->order}}"/>
+              <input type="hidden" name="tb" value="{{$p->tab}}"/>
               <input type="hidden" name="ti" id="tagId" value="0"/>
             </form>
           </div>
@@ -88,7 +89,7 @@
               <div class="col-md-10 card bg-info" style="color: white">
               @endif
                 <div class="card-body ps-0">
-                  <a href="{{Params::link2Detail($item->id, $p)}}">
+                  <a href="{{$p->link2Detail($item->id)}}">
                     @if($item->hasTag(6))
                     <label class="form-check-label form-control-lg" style="color: black">
                     @else

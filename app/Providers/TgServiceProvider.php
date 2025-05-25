@@ -8,7 +8,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class TagServiceProvider extends ServiceProvider
+class TgServiceProvider extends ServiceProvider
 {
   /**
    * Bootstrap services.
@@ -27,8 +27,8 @@ class TagServiceProvider extends ServiceProvider
    */
   public function register()
   {
-    $this->app->singleton('tag', function() {
-      return new \App\Http\Components\Tag;
+    $this->app->singleton('tg', function() {
+      return new \App\Http\Components\Tg;
     });
   }
 }

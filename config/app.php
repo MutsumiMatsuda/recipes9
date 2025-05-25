@@ -199,7 +199,7 @@ return [
          * Original Service Providers...
          */
          App\Providers\UtlServiceProvider::class,
-         App\Providers\TagServiceProvider::class,
+         App\Providers\TgServiceProvider::class,
 
     ],
 
@@ -217,7 +217,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Utl' => App\Facades\Utl::class,
-        'Tag' => App\Facades\Tag::class,
+        'Tg' => App\Facades\Tg::class,
+        'Cnst' => App\Const\Cnst::class,
         'LearnQuestion' => App\Models\LearnQuestion::class,
         'Params' => App\Models\Params::class,
         'GoogleTranslate' => Stichoza\GoogleTranslate\GoogleTranslate::class,

@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class QType extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    protected $guarded = array('id');
-    //
-    public static $rules = array(
-      'name' => 'required',
-      'icon' => 'required',
-    );
+  protected $guarded = array('id');
+  //
+  public static $rules = array(
+    'name' => 'required',
+    'icon' => 'required',
+  );
 }

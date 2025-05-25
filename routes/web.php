@@ -155,6 +155,9 @@ Route::get('learner/fill/show', [App\Http\Controllers\Learners\PagesController::
 Route::get('learner/fill/try', [App\Http\Controllers\Learners\PagesController::class, 'tryFill'])->name('tryFill');
 Route::get('learner/fill/prevtry', [App\Http\Controllers\Learners\PagesController::class, 'tryPrevFill'])->name('tryPrevFill');
 
+Route::get('learner/tag/try', [App\Http\Controllers\Learners\PagesController::class, 'tryWithTag'])->name('tryWithTag');
+Route::get('learner/tag/prevtry', [App\Http\Controllers\Learners\PagesController::class, 'tryPrevWithTag'])->name('tryPrevWithTag');
+
 Route::get('learner/detail', [App\Http\Controllers\Learners\PagesController::class, 'qDetail'])->name('transDetail');
 Route::post('learner/check', [App\Http\Controllers\Learners\PagesController::class, 'qCheck'])->name('transCheck');
 Route::get('learner/add', [App\Http\Controllers\Learners\PagesController::class, 'add'])->name('transAdd');
@@ -168,11 +171,6 @@ Route::get('learner/fill/add', [App\Http\Controllers\Learners\PagesController::c
 Route::post('learner/fill/add', [App\Http\Controllers\Learners\PagesController::class, 'createFill'])->name('fillCreate');
 Route::get('learner/fill/edit', [App\Http\Controllers\Learners\PagesController::class, 'editFill'])->name('fillEdit');
 Route::post('learner/fill/update', [App\Http\Controllers\Learners\PagesController::class, 'updateFill'])->name('fillUpdate');
-
-Route::get('learner/kanpoword/try', [App\Http\Controllers\Learners\PagesController::class, 'tryKanpo'])->name('tryKanpo');
-Route::get('learner/bizword/try', [App\Http\Controllers\Learners\PagesController::class, 'tryBiz'])->name('tryBiz');
-Route::get('learner/otherword/try', [App\Http\Controllers\Learners\PagesController::class, 'tryOther'])->name('tryOther');
-Route::get('learner/english/try', [App\Http\Controllers\Learners\PagesController::class, 'tryEnglish'])->name('tryEnglish');
 
 Route::get('learner/type', [App\Http\Controllers\Learners\TypeController::class, 'index'])->name('typeIndex');
 Route::get('learner/type/detail', [App\Http\Controllers\Learners\TypeController::class, 'detail'])->name('typeDetail');

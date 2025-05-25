@@ -56,6 +56,7 @@
           </div>
           @csrf
           <input type="hidden" name="type" id="type" value="{{$p->type}}"/>
+          <input type="hidden" name="tb" id="tb" value="{{$p->tab}}"/>
           <div class="form-group row py-4">
             <div class="col-md-3 mx-auto">
               <button type="submit" class="btn-lg btn-outline-dark">登録</button>

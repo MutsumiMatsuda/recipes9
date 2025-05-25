@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 
 use App\Models\LearnQuestion;
 use App\Models\Tryout;
+use App\Models\TagTryout;
 use App\Models\Params;
 use App\Models\QTag;
 use App\Models\QType;
 use App\Models\LearnQuestionTag;
 use Validator;
+use Cnst;
 use Carbon\Carbon;
 use Overtrue\Pinyin\Pinyin;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -22,9 +24,13 @@ class PagesController extends Controller
    * 中国語勉強サイトトップ
    */
   public function qtop(Request $rq) {
+    $p = new Params($rq);
+    // 問題種類
     $list = QType::all()->sortBy('id');
+    // 検索用タグ
+    $tags = QTag::all()->sortBy('id');
     $style = 'sakura';
-    return view('learner.top', compact(['list', 'style']));
+    return view('learner.top', compact(['p', 'list', 'tags', 'style']));
   }
 
   /**
@@ -39,7 +45,7 @@ class PagesController extends Controller
     $page = $p->page;
     $tags = QTag::all();
 
-    $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
+    $list = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
     return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
   }
 
@@ -56,7 +62,7 @@ class PagesController extends Controller
     $page = $p->page;
     $tags = QTag::all();
 
-    $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
+    $list = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
     return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
   }
 
@@ -74,7 +80,7 @@ class PagesController extends Controller
     $page = $p->page;
     $tags = QTag::all();
 
-    $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
+    $list = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
     return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
   }
 
@@ -91,7 +97,7 @@ class PagesController extends Controller
     $page = $p->page;
     $tags = QTag::all();
 
-    $list = LearnQuestion::getIndexQuery($p)->paginate(LearnQuestion::PAGENATE);
+    $list = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
     return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
   }
 
@@ -352,8 +358,9 @@ class PagesController extends Controller
    * 難易度高め翻訳問題集を新規作成して一覧表示
    */
   public function tryTrans(Request $rq) {
-    Tryout::createHard(LearnQuestion::TRANSLATE);
-    return redirect()->route('tryPrevTrans', ['t' => LearnQuestion::TRANSLATE]);
+    $p = new Params($rq);
+    Tryout::createHard($p->type);
+    return redirect()->route('tryPrevTrans', ['t' => $p->type]);
   }
 
   /**
@@ -385,35 +392,21 @@ class PagesController extends Controller
   }
 
   /**
-   * 難易度高めの生薬単語問題集を新規作成して一覧表示
+   * 難易度高めタグ付き問題集を新規作成して一覧表示
    */
-  public function tryKanpo(Request $rq) {
-    Tryout::createHard(LearnQuestion::KANPOWORD);
-    return redirect()->route('tryPrevTrans', ['t' => LearnQuestion::KANPOWORD]);
+  public function tryWithTag(Request $rq) {
+    $p = new Params($rq);
+    TagTryout::createHard($p->tagId);
+    return redirect()->route('tryPrevWithTag', ['ti' => $p->tagId]);
   }
 
   /**
-   * 難易度高めのビジネス単語問題集を新規作成して一覧表示
+   * 前回の難易度高め翻訳問題集を一覧表示
    */
-  public function tryBiz(Request $rq) {
-    Tryout::createHard(LearnQuestion::BIZWORD);
-    return redirect()->route('tryPrevTrans', ['t' => LearnQuestion::BIZWORD]);
-  }
-
-  /**
-   * 難易度高めのその他単語問題集を新規作成して一覧表示
-   */
-  public function tryOther(Request $rq) {
-    Tryout::createHard(LearnQuestion::OTHERWORD);
-    return redirect()->route('tryPrevTrans', ['t' => LearnQuestion::OTHERWORD]);
-  }
-
-  /**
-   * 難易度高めの英単語問題集を新規作成して一覧表示
-   */
-  public function tryEnglish(Request $rq) {
-    Tryout::createHard(LearnQuestion::ENGWORD);
-    return redirect()->route('tryPrevTrans', ['t' => LearnQuestion::ENGWORD]);
+  public function tryPrevWithTag(Request $rq) {
+    $p = new Params($rq);
+    $tryout = TagTryout::latest($p->tagId);
+    return view('learner.q-tryout', compact(['tryout', 'p']));
   }
 
   /**
@@ -488,44 +481,5 @@ class PagesController extends Controller
     }
     $q->ratio = (int)(round($q->cleared / $q->tried, 1) * 1000);
     $q->save();
-  }
-
-  public function sakura(Request $req) {
-    $q = "テルミサルタン";
-    $opt = ["1" => "ミカムロ", "2" => "オキシテトラコーン", "3" => "ジルムロ", "4" => "イルアミクス", "5" => "アマルエット"];
-    $sel = [];
-    foreach($opt as $key => $val) {
-      $sel[] = new LearnQuestion($key, $val);
-    }
-    //dd($sel);
-    return view('learner.sakura', compact(['q', 'sel']));
-  }
-
-  public function checkAnswer(Request $req) {
-    $q = "テルミサルタン";
-    $opt = ["1" => "ミカムロ", "2" => "オキシテトラコーン", "3" => "ジルムロ", "4" => "イルアミクス", "5" => "アマルエット"];
-    $sel = [];
-    foreach($opt as $key => $val) {
-      $sel[] = new LearnQuestion($key, $val);
-    }
-
-    return view('learner.sakura', compact(['q', 'sel']));
-  }
-
-  public function stars(Request $req) {
-    return view('learner.stars');
-  }
-
-  public function momiji(Request $req) {
-    return view('learner.momiji');
-  }
-
-  public function confetti(Request $req) {
-    return view('learner.confetti');
-  }
-
-  public function starwars(Request $req) {
-    //return view('learner.starwars');
-    return view('learner.sw');
   }
 }

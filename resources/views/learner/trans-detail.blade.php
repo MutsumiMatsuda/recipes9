@@ -85,6 +85,7 @@
           <input type="hidden" name="s" value="{{$p->sort}}"/>
           <input type="hidden" name="o" value="{{$p->order}}"/>
           <input type="hidden" name="to" value="{{$p->tryId}}"/>
+          <input type="hidden" name="tb" value="{{$p->tab}}"/>
           <input type="hidden" name="page" value="{{$p->page}}"/>
           <div class="form-group row py-4">
             <div class="col-md-3 mx-auto">

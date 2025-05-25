@@ -15,7 +15,7 @@ return new class extends Migration
   {
     Schema::create('tryouts', function (Blueprint $table) {
       $table->id();
-      $table->integer('type')->comment('種類');
+      $table->integer('q_type_id')->comment('種類');
       $table->string('name')->comment('問題集の名前');
       $table->timestamps();
     });

@@ -60,7 +60,7 @@
         @csrf
         <div class="form-group row py-4 mx-auto">
           <div class="col-md-12">
-            <button type="button" onclick="location.href='{{Params::link2Index($p)}}'" class="btn btn-light btn-outline-dark">一覧へ</button>
+            <button type="button" onclick="location.href='{{$p->link2Index($p->type)}}'" class="btn btn-light btn-outline-dark">一覧へ</button>
           </div>
         </div>
       </div>

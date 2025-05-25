@@ -43,7 +43,7 @@
             <ul class="navbar-nav me-auto">
               @guest
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{{ route('login') }}">>ログイン</a>
+                <a class="nav-link active" aria-current="page" href="{{ route('login') }}">ログイン</a>
               </li>
               @else
               <li class="nav-item">
