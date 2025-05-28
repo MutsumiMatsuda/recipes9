@@ -77,7 +77,7 @@
           </div>
         </div>
         @php $i = 1; @endphp
-        @foreach($list as $item)
+        @foreach($questions as $item)
         <div class="form-group row" style="font-size: 20; color: white;">
           <div class="col-md-11 mx-auto">
             <div class="row">
@@ -151,7 +151,7 @@
       {{-- ページネーション --}}
       <div class="row py-2 mx-auto">
         <div class="col-md-3 mx-auto">
-          {{$list->links('vendor.pagination.bootstrap-5', ['p' => $p])}}
+          {{$questions->links('vendor.pagination.bootstrap-5', ['p' => $p])}}
         </div>
       </div>
     </div>

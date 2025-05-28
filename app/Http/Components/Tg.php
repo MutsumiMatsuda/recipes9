@@ -25,6 +25,13 @@ class Tg {
   }
 
   /**
+   *
+   */
+  public static function isActiveTabPain($p, $tabName) {
+    return Cnst::TAB_ARY[$p->tab] == $tabName ? "active show" : "";
+  }
+
+  /**
    * アクティブなtabの番号を返す
    */
   public static function echoTabAry() {

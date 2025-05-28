@@ -85,6 +85,30 @@ class LearnQuestion extends Model
    */
   public static function getIndexQuery(Params $p) {
 
+    $query = self::query()->where([['hidden', '=', $p->hidden]]);
+
+    if (0 < $p->type) {
+      $query = $query->where([['q_type_id', '=', $p->type]]);
+    }
+
+    if (!empty($p->query)) {
+      $ids = self::where([['q', 'like', '%' . $p->query . '%']])->
+        orWhere([['a', 'like', '%' . $p->query . '%']])->
+        orWhere([['hint1', 'like', '%' . $p->query . '%']])->
+        orWhere([['hint2', 'like', '%' . $p->query . '%']])->pluck('id')->toArray();
+      $query = $query->whereIn('id', $ids);
+    }
+
+    if (0 < $p->tagId) {
+      $qTag = QTag::find($p->tagId);
+      $query = $query->whereIn('id', $qTag->questionIds());
+    }
+
+    $quety = $query->groupBy('id')->orderBy($p->sort, $p->order);
+
+    return $query;
+
+    /*
     if (0 < $p->tagId) {
       // タグが指定された場合
       $qTag = QTag::find($p->tagId);
@@ -115,6 +139,7 @@ class LearnQuestion extends Model
           groupBy('id')->orderBy($p->sort, $p->order);
       }
     }
+    */
   }
 
   // 正答率をランダムに返す

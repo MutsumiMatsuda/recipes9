@@ -72,9 +72,14 @@ class Params {
   /**
    *
    */
-  public function isActiveTab($tabName) {
-    echo Tg::isActiveTab($this, $tabName);
-  }
+ public function isActiveTab($tabName) {
+   echo Tg::isActiveTab($this, $tabName);
+ }
+
+ public function isActiveTabPain($tabName) {
+   echo Tg::isActiveTabPain($this, $tabName);
+ }
+
   public function isSelectedArea($areaName) {
     echo Tg::isSelectedArea($this, $areaName);
   }

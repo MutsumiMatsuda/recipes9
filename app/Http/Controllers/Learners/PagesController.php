@@ -25,12 +25,16 @@ class PagesController extends Controller
    */
   public function qtop(Request $rq) {
     $p = new Params($rq);
+
     // 問題種類
     $list = QType::all()->sortBy('id');
     // 検索用タグ
     $tags = QTag::all()->sortBy('id');
     $style = 'sakura';
-    return view('learner.top', compact(['p', 'list', 'tags', 'style']));
+
+    $questions = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
+    $tab = $p->tab;
+    return view('learner.top', compact(['p', 'list', 'questions', 'tags', 'style', 'tab']));
   }
 
   /**
@@ -45,8 +49,8 @@ class PagesController extends Controller
     $page = $p->page;
     $tags = QTag::all();
 
-    $list = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
-    return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
+    $questions = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
+    return view('learner.q-index', compact(['questions', 'page', 'p', 'tags']));
   }
 
   /**
@@ -62,8 +66,8 @@ class PagesController extends Controller
     $page = $p->page;
     $tags = QTag::all();
 
-    $list = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
-    return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
+    $questions = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
+    return view('learner.q-index', compact(['questions', 'page', 'p', 'tags']));
   }
 
   /**
@@ -80,8 +84,8 @@ class PagesController extends Controller
     $page = $p->page;
     $tags = QTag::all();
 
-    $list = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
-    return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
+    $questions = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
+    return view('learner.q-index', compact(['questions', 'page', 'p', 'tags']));
   }
 
   /**
@@ -97,8 +101,8 @@ class PagesController extends Controller
     $page = $p->page;
     $tags = QTag::all();
 
-    $list = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
-    return view('learner.q-index', compact(['list', 'page', 'p', 'tags']));
+    $questions = LearnQuestion::getIndexQuery($p)->paginate(Cnst::PAGENATE);
+    return view('learner.q-index', compact(['questions', 'page', 'p', 'tags']));
   }
 
   /**
