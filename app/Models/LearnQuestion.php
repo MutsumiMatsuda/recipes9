@@ -42,11 +42,11 @@ class LearnQuestion extends Model
 
   // 問題種類
   const TRANSLATE = 1;  // 翻訳
-  const FILLBLANK = 2;  // 穴埋め
-  const KANPOWORD = 3;  // 生薬単語
-  const BIZWORD = 4;    // ビジネス単語
-  const OTHERWORD = 5;  // 一般単語
-  const ENGWORD = 6;    // 英単語
+  const KANPOWORD = 2;  // 生薬単語
+  const BIZWORD = 3;    // ビジネス単語
+  const OTHERWORD = 4;  // 一般単語
+  const ENGWORD = 5;    // 英単語
+  const FILLBLANK = 20;  // 穴埋め
 
   // 画面タイトル
   public static $pageTitles = array('', '翻訳', '穴埋め', '生薬化学単語', 'ビジネス単語', '一般単語', '英単語');
