@@ -191,6 +191,7 @@ class PagesController extends Controller
     $this->validate($rq, LearnQuestion::$rules);
     $q = new LearnQuestion();
     $q->fill($rq->all());
+    $q->q_type_id = $p->type;
     $q->save();
 
     // タグの登録
@@ -271,6 +272,7 @@ class PagesController extends Controller
     $form['hint1'] = LearnQuestion::makeFillQuestion($rq->q_head, $rq->q_tail);
     $q = new LearnQuestion();
     $q->fill($form);
+    $q->q_type_id = $p->type;
     $q->save();
 
     // タグの登録

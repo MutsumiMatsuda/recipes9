@@ -127,7 +127,7 @@
           </div>
           @csrf
           <input type="hidden" id="type" name="type" value="{{LearnQuestion::FILLBLANK}}">
-          <input type="hidden" name="t" value="{{LearnQuestion::FILLBLANK}}">
+          <input type="hidden" name="t" value="{{$p->type}}">
           <input type="hidden" name="h" value="{{$p->hidden}}"/>
           <input type="hidden" name="qr" value="{{$p->query}}"/>
           <input type="hidden" name="s" value="{{$p->sort}}"/>

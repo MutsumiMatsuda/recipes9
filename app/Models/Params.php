@@ -87,10 +87,10 @@ class Params {
   // タイプと表示非表示によってaction属性を設定する
   public function setAction() {
     // 検索フォームの送信先
-    if (0 == $this->type) {
-      $this->action =  (0 == $this->hidden) ? route("transIndex") : route("transHidden");
-    } else {
+    if (LearnQuestion::FILLBLANK == $this->type) {
       $this->action =  (0 == $this->hidden) ? route("fillIndex") : route("fillHidden");
+    } else {
+      $this->action =  (0 == $this->hidden) ? route("transIndex") : route("transHidden");
     }
   }
 
@@ -114,7 +114,7 @@ class Params {
 
   // ページのタイトルを返す
   public function getTitle($tail = '') {
-    return LearnQuestion::getTitle($this->type) . $tail;
+    return LearnQuestion::pageTitle($this->type) . $tail;
   }
 
   /**

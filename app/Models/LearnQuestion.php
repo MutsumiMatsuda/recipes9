@@ -49,7 +49,7 @@ class LearnQuestion extends Model
   const FILLBLANK = 20;  // 穴埋め
 
   // 画面タイトル
-  public static $pageTitles = array('', '翻訳', '穴埋め', '生薬化学単語', 'ビジネス単語', '一般単語', '英単語');
+  public static $pageTitles = array('', '翻訳', '生薬化学単語', 'ビジネス単語', '一般単語', '英単語');
 
   // 穴埋め問題の区切り文字
   const FILL_DELIMITER = '*';
@@ -77,7 +77,8 @@ class LearnQuestion extends Model
    * 問題作成画面タイトル
    */
   public static function pageTitle($type) {
-    return self::$pageTitles[$type];
+    $qType = QType::find($type);
+    return null == $qType ? '問題集' : $qType->name;
   }
 
   /*
@@ -107,39 +108,6 @@ class LearnQuestion extends Model
     $quety = $query->groupBy('id')->orderBy($p->sort, $p->order);
 
     return $query;
-
-    /*
-    if (0 < $p->tagId) {
-      // タグが指定された場合
-      $qTag = QTag::find($p->tagId);
-      if (empty($p->query)) {
-        return self::query()->where([['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          whereIn('id', $qTag->questionIds())->
-          orderBy($p->sort, $p->order);
-      } else {
-        return self::query()->
-          where([['q', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['a', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['hint1', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['hint2', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          whereIn('id', $qTag->questionIds())->
-          groupBy('id')->orderBy($p->sort, $p->order);
-      }
-    } else {
-      // タグが指定されない場合
-      if (empty($p->query)) {
-        return self::query()->where([['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orderBy($p->sort, $p->order);
-      } else {
-        return self::query()->
-          where([['q', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['a', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['hint1', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          orWhere([['hint2', 'like', '%' . $p->query . '%'], ['q_type_id', '=', $p->type], ['hidden', '=', $p->hidden]])->
-          groupBy('id')->orderBy($p->sort, $p->order);
-      }
-    }
-    */
   }
 
   // 正答率をランダムに返す
